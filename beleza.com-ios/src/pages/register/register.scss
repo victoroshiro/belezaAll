@@ -1,0 +1,79 @@
+page-register {
+    ion-content{
+        background-size: cover;
+        background-position-x: 100%;
+        background-repeat: no-repeat;
+        background-image: url("../assets/imgs/fundo.jpg");
+    }
+
+    ion-header{
+        &:after{
+            background-image: none !important;
+        }
+
+        ion-navbar{
+            .toolbar-background{
+                background: transparent;
+            }
+        }
+    }
+
+    form{
+        h1{
+            font-weight: 400;
+            color: #FFFFFF;
+        }
+
+        ion-item{
+            background-color: transparent !important;
+
+            ion-icon{
+                color: rgba(255, 255, 255, 0.87);
+            }
+
+            input{
+                color: rgba(0, 0, 0, 0.87);
+
+                &::-webkit-input-placeholder{
+                    color: rgba(255, 255, 255, 0.87) !important;
+                }
+            }
+        }
+
+        .checkbox{
+            display: flex;
+
+            ion-item{
+                max-width: 56px;
+            }
+
+            ion-label{
+                padding: 0.5em;
+                font-size: 0.7em;
+                color: rgba(255, 255, 255, 0.87);
+
+                a{
+                    font-weight: bold;
+                    color: rgba(0, 0, 0, 0.7);
+                }
+            }
+        }
+
+        button[ion-button]{
+            height: 3.2em;
+            font-size: 1em;
+            border-bottom: 2px solid #E10038;
+        }
+    }
+
+    .login{
+        font-size: 0.8em;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.87);
+
+        a{
+            font-weight: bold;
+            color: rgba(0, 0, 0, 0.7);
+        }
+    }
+}

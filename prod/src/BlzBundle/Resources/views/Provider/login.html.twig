@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login | Beleza.com</title>
+
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css" />
+    
+        <link href="{{asset("theme/plugins/bootstrap/css/bootstrap.css")}}" rel="stylesheet" />
+        <link href="{{asset("theme/plugins/node-waves/waves.css")}}" rel="stylesheet" />
+        <link href="{{asset("theme/css/style.css")}}" rel="stylesheet" />
+        <link href="{{asset("style.css")}}" rel="stylesheet" />
+
+        <style>
+            .login-page{
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position-y: 25%;
+                background-image: url("{{asset("img/provider.jpg")}}");
+            }
+        </style>
+    </head>
+    
+    <body class="login-page">
+        <div class="login-box">
+            <div class="card">
+                <div class="body">
+                    <form method="POST" id="login-admin">
+                        <figure>
+                            <img src="{{asset("img/logo.png")}}" alt="Logo Beleza.com" />
+                        </figure>
+                        
+                        <div class="msg">Entre como um prestador de serviço</div>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="material-icons">person</i>
+                            </span>
+                            <div class="form-line">
+                                <input type="email" class="form-control" name="_username" value="{{last_username}}" placeholder="Email" required autofocus>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="material-icons">lock</i>
+                            </span>
+                            <div class="form-line">
+                                <input type="password" class="form-control" name="_password" placeholder="Senha" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <p class="align-center">{% if error %}Usuário ou senha incorretos{% endif %}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 p-t-5">
+                                <input type="checkbox" name="_remember_me" id="remember" class="filled-in chk-col-pink">
+                                <label for="remember">Lembrar-me</label>
+                            </div>
+                            <div class="col-xs-4">
+                                <button class="btn btn-block bg-pink waves-effect" type="submit">ENTRAR</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script src="{{asset("theme/plugins/jquery/jquery.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/bootstrap/js/bootstrap.js")}}"></script>
+    <script src="{{asset("theme/plugins/node-waves/waves.js")}}"></script>
+</html>

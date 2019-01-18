@@ -1,0 +1,24 @@
+page-rating {
+    h1{
+        font-weight: 300;
+    }
+
+    h2{
+        font-size: 1.2em;
+    }
+
+    .rating{
+        margin: 50% 0;
+
+        ion-icon{
+            font-size: 3em;
+            color: #FFC107;
+        }
+    }
+
+    .submit{
+        padding: 1.6em;
+        font-size: 1.2em;
+        margin-bottom: 1em;
+    }
+}

@@ -1,0 +1,104 @@
+{% extends "base-franchisee.html.twig" %}
+
+{% block style %}
+    <link href="{{asset("theme/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css")}}" rel="stylesheet">
+    <link href="{{asset("theme/plugins/sweetalert/sweetalert.css")}}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <p>Prestadores de serviço</p>
+                </div>
+                <div class="body table-responsive">
+                    {% if provider %}
+                        <table class="table dataTable">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Telefone / Celular</th>
+                                    <th>Plano</th>
+                                    <th>Endereço</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for p in provider %}
+                                    <tr>
+                                        <td>{{p.name}}</td>
+                                        <td>{{p.email}}</td>
+                                        <td>{{p.providerData.phone ? p.providerData.phone : "-"}} / {{p.providerData.celphone ? p.providerData.celphone : "-"}}</td>
+                                        <td>{{p.providerData.plan.name}}</td>
+                                        <td>{% if p.providerData.address.street %}{{p.providerData.address.street}}, {{p.providerData.address.number}}, {{p.providerData.address.neighborhood}} {% if p.providerData.address.city %}- {{p.providerData.address.city.name}} | {{p.providerData.address.city.state.uf}}{% endif %}{% else %}-{% endif %}</td>
+                                        <td><a href="/franqueado/prestador-servico/{{p.id}}/servicos/">Serviços</a></td>
+                                        <td><a href="/franqueado/prestador-servico/{{p.id}}/agenda/">Agenda</a></td>
+                                        <td><a href="/franqueado/prestador-servico/{{p.id}}/servicos-agendados/">Agendamentos</a></td>
+                                        <td><a href="/franqueado/prestador-servico/{{p.id}}/financeiro/">Financeiro</a></td>
+                                        <td><a href="/franqueado/prestador-servico/{{p.id}}/"><i class="material-icons">create</i></a></td>
+                                        <td><a class="toggle-provider" data-id="{{p.id}}">{% if p.active %}Desativar{% else %}Ativar{% endif %}</a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>Não há prestadores de serviço</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{asset("theme/plugins/jquery-datatable/jquery.dataTables.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/buttons.flash.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/jszip.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/pdfmake.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/vfs_fonts.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/buttons.html5.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/buttons.print.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/sweetalert/sweetalert.min.js")}}"></script>
+    <script src="{{asset("script.js")}}"></script>
+    <script>
+        $(document).on("click", ".toggle-provider", function(){
+            var ref = this;
+
+            swal("Alterando...", "Alterando status", "info");
+
+            $.ajax({
+                method: "POST",
+                url: "/franqueado/provider/toggle/",
+                data: "id=" + $(ref).attr("data-id"),
+                success: function(data){
+                    swal({
+                        title: "Sucesso",
+                        text: "Status alterado com sucesso",
+                        type: "success"
+                    });
+
+                    if(data == 1){
+                        $(ref).html("Desativar");
+                    }
+                    else{
+                        $(ref).html("Ativar");
+                    }
+                },
+                error: function(data){
+                    console.log(data);
+                    swal("Erro", data.responseText, "error");
+                }
+            });
+        });
+    </script>
+{% endblock %}

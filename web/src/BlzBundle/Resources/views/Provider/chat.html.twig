@@ -1,0 +1,121 @@
+{% extends "base-provider.html.twig" %}
+
+{% block style %}
+    <link href="{{asset("theme/plugins/sweetalert/sweetalert.css")}}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-md-12">
+            {% if chat_room %}
+                <div class="card" id="chat">
+                    <div class="header">
+                        <p>{{chat_room.user.name}}</p>
+                    </div>
+                    <div class="body">
+                        <div class="chat-list">
+                            {% for c in chat %}
+                                <div class="{% if c.fromUser.id == app.user.id %}chat-send clearfix{% else %}chat-received{% endif %}">
+                                    {% if c.fromUser.id == app.user.id %}
+                                        <img class="chat-profile" src="{% if app.user.providerData.photo %}/upload/provider/{{app.user.providerData.photo}}{% else %}{{asset("img/provider.png")}}{% endif %}" />
+                                    {% else %}
+                                        <img class="chat-profile" src="{% if chat_room.user.userData.photo %}/upload/user/{{chat_room.user.userData.photo}}{% else %}{{asset("img/profile.jpg")}}{% endif %}" />
+                                    {% endif %}
+                                    
+                                    <div class="chat-content">
+                                        <div class="chat-time">{{c.datetime | date("d/m/Y H:i")}}</div>
+                                        
+                                        {{c.message}}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="chat-input">
+                            <input placeholder="Digite a mensagem" />
+                            <i class="material-icons">send</i>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="card">
+                    <div class="body">
+                        <p>Conversa não encontrada</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{asset("theme/plugins/sweetalert/sweetalert.min.js")}}"></script>
+    <script>
+        {% if chat_room %}
+            socket.emit("chat:join", {chat: "{{chat_room.id}}"});
+
+            $(".chat-list").scrollTop($(".chat-list").prop("scrollHeight"));
+
+            $(".chat-input .material-icons").click(function(){
+                var message = $(".chat-input input").val();
+
+                if(message){
+                    var body = {
+                        chat_room: "{{chat_room.id}}",
+                        message: message,
+                        from_user: "{{app.user.id}}",
+                        to_user: "{{chat_room.user.id}}",
+                        name: "{{app.user.providerData.name}}",
+                        photo: "{{app.user.providerData.photo}}",
+                        push: "{{chat_room.user.userData.push}}",
+                        datetime: "Agora"
+                    }
+
+                    socket.emit("chat:message", body);
+
+                    $(".chat-input input").val("");
+
+                    $.ajax({
+                        method: "POST",
+                        url: "/prestador-servico/chat/add/",
+                        data: body,
+                        error: function(data){
+                            swal("Erro", data.responseText, "error");
+                        }
+                    });
+
+                    var photo = "{{app.user.providerData.photo}}" != "" ? "/upload/provider/{{app.user.providerData.photo}}" : "{{asset("img/provider.png")}}";
+                    
+                    $(".chat-list").append(`
+                    <div class="chat-send clearfix">
+                        <img class="chat-profile" src="` + photo + `" />
+
+                        <div class="chat-content">
+                            <div class="chat-time">` + body.datetime + `</div>
+                            
+                            ` + body.message + `
+                        </div>
+                    </div>
+                    `);
+                    $(".chat-list").scrollTop($(".chat-list").prop("scrollHeight"));
+                }
+            });
+
+            socket.on("chat:message", function(data){
+                var photo = data.photo != "" ? "/upload/user/" + data.photo : "{{asset("img/profile.jpg")}}";
+
+                $(".chat-list").append(`
+                <div class="chat-received">
+                    <img class="chat-profile" src="` + photo + `" />
+
+                    <div class="chat-content">
+                        <div class="chat-time">` + data.datetime + `</div>
+                        
+                        ` + data.message + `
+                    </div>
+                </div>
+                `);
+                $(".chat-list").scrollTop($(".chat-list").prop("scrollHeight"));
+            });
+        {% endif %}
+    </script>
+{% endblock %}

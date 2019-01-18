@@ -1,0 +1,39 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Editar anúncio</ion-title>
+
+    <ion-buttons end>
+      <button (click)="dismiss()" ion-button clear>
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <figure>
+    <img (click)="photoOptions()" [src]="ad.newPhoto ? ad.newPhoto : web.url + '/upload/ad/' + ad.photo" />
+  </figure>
+
+  <form #adEdit="ngForm" (ngSubmit)="edit(adEdit)">
+    <ion-input type="hidden" name="id" [(ngModel)]="ad.id"></ion-input>
+    <ion-input type="hidden" name="photo" [(ngModel)]="ad.newPhoto"></ion-input>
+
+    <div padding>
+      <ion-item>
+        <ion-label floating>Nome</ion-label>
+        <ion-input type="text" name="name" [(ngModel)]="ad.name" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Descrição</ion-label>
+        <ion-textarea rows="4" name="description" [(ngModel)]="ad.description" required></ion-textarea>
+      </ion-item>
+    </div>
+
+    <button [disabled]="!adEdit.valid || (!ad.photo && !ad.newPhoto)" color="rose" ion-button full large>Editar</button>
+  </form>
+</ion-content>

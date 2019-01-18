@@ -1,0 +1,272 @@
+a{
+    cursor: pointer;
+}
+
+nav .navbar-header img{
+    height: 40px;
+    margin-top: -0.5em;
+    margin-right: 1em;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.sidebar .menu{
+    overflow-x: hidden;
+}
+
+.login-page{
+    margin: auto;
+    height: 100vh;
+    padding-top: 8%;
+    background: linear-gradient(65deg, rgba(147, 62, 149, 0.7), rgba(245, 53, 146, 0.5));
+}
+.login-page form figure{
+    margin-bottom: 1em;
+    text-align: center;
+}
+.login-page form figure img{
+    width: 40%;
+}
+.login-page form button.bg-pink{
+    background-color: #A33D95 !important;
+}
+
+.category .specialty, .category .specialty .service{
+    padding-left: 2em;
+}
+
+.category .specialty > p label{
+    font-size: 1.2em;
+}
+
+.service-checkbox{
+    margin-top: 0.7em;
+}
+
+/* Image picker */
+
+.add-image{
+    cursor: pointer;
+    position: relative;
+}
+.add-image span{
+    width: 100%;
+    display: block;
+    background-color: #E0E0E0;
+    border: 1px solid #ddd;
+}
+.add-image .material-icons{
+    padding: 37px;
+    font-size: 40px;
+}
+#img-gallery .gallery-item, #img-gallery .gallery-fake-item{
+    position: relative;
+}
+#img-gallery .gallery-item img, #img-gallery .gallery-fake-item img{
+    width: 100%;
+}
+#img-gallery .gallery-item .material-icons, #img-gallery .gallery-fake-item .material-icons{
+    top: 8px;
+    right: 23px;
+    opacity: 0;
+    padding: 4px;
+    color: #FFFFFF;
+    position: absolute;
+    border-radius: 50%;
+    background-color: #F44336;
+    transition: opacity 0.225s ease-in-out;
+}
+#img-gallery .gallery-item:hover .material-icons, #img-gallery .gallery-fake-item:hover .material-icons{
+    opacity: 1;
+}
+
+/* Schedule */
+.available-time{
+    position: relative;
+}
+#available-time, #available-time-loader{
+    display: none;
+}
+#available-time-loader{
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+}
+#available-time.only-show-available-time .time_checkbox{
+    pointer-events: none;
+}
+
+#calendar .today{
+    background: none;
+    color: #FFFFFF;
+    background-color: rgba(245, 53, 147, 0.8);
+}
+#calendar .highlight-scheduled{
+    color: #FFFFFF;
+    background-color: rgba(147, 62, 149, 0.8);
+}
+#calendar .active{
+    background: linear-gradient(65deg, #943E95, #F53593);
+}
+
+/* Chat */
+
+#chat-list a{
+    text-decoration: none;
+}
+#chat-list a > div{
+    display: flex;
+    padding: 1em 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+#chat-list a > div:last-child{
+    border-bottom: none;
+}
+#chat-list a > div img{
+    height: 64px;
+    margin-right: 1em;
+    border-radius: 50%;
+}
+#chat-list a > div h2{
+    font-size: 1.4em;
+    margin: 0.5em 0 0.3em 0;
+    color: rgba(0, 0, 0, 0.87);
+}
+#chat-list a:hover > div h2{
+    color: rgba(0, 0, 0, 0.7);
+}
+#chat-list a > div p{
+    color: rgba(0, 0, 0, 0.54);
+    text-decoration: none !important;
+}
+
+#chat .body{
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 220px);
+}
+#chat .chat-list{
+    flex: 1;
+    overflow: auto;
+    overflow-x: hidden;
+    margin-bottom: 1em;
+}
+#chat .chat-list .chat-send, #chat .chat-list .chat-received{
+    clear: both;
+    padding: 1.2em 0.5em;
+}
+#chat .chat-list .chat-profile{
+    width: 48px;
+    height: 48px;
+    z-index: +1;
+    position: relative;
+    border-radius: 50%;
+    border: 3px solid #FFFFFF;
+    background-color: #FFFFFF;
+}
+#chat .chat-list .chat-content{
+    max-width: 75%;
+    min-width: 10em;
+    position: relative;
+    border-radius: 8px;
+    margin-top: 2px;
+}
+#chat .chat-list .chat-content .chat-time{
+    top: 0.3em;
+    font-size: 0.8em;
+    position: absolute;
+}
+
+#chat .chat-list .chat-send .chat-profile{
+    float: right;
+}
+#chat .chat-list .chat-send .chat-content{
+    float: right;
+    color: #FFFFFF;
+    margin-right: -1.2em;
+    padding: 1.4em 2em 0.3em 0.5em;
+    background-color: #943E95;
+}
+
+#chat .chat-list .chat-received .chat-profile{
+    float: left;
+}
+#chat .chat-list .chat-received .chat-content{
+    float: left;
+    color: rgba(0, 0, 0, 0.7);
+    margin-left: -1.2em;
+    padding: 1.4em 0.5em 0.3em 2em;
+    background-color: rgba(0, 0, 0, 0.12);
+}
+#chat .chat-list .chat-received .chat-time{
+    right: 1em;
+}
+
+#chat .chat-input{
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.12);
+}
+#chat .chat-input input{
+    flex: 1;
+    resize: none;
+    border: none;
+    padding: 0.5em 1em;
+    background-color: transparent;
+}
+#chat .chat-input .material-icons{
+    font-size: 2em;
+    cursor: pointer;
+    user-select: none;
+    padding: 0.3em 0.5em 0.1em 0.5em;
+    color: rgba(0, 0, 0, 0.54);
+    border-left: 1px solid rgba(0, 0, 0, 0.12);
+}
+#chat .chat-input .material-icons:active{
+    background-color: rgba(0, 0, 0, 0.24);
+}
+
+#scheduling-details .confirm-scheduling, #scheduling-details .refuse-scheduling, #scheduling-details .finalize-scheduling, #scheduling-details .cancel-scheduling{
+    margin-right: 2em;
+}
+#scheduling-details .material-icons{
+    vertical-align: middle;
+}
+#scheduling-details figure img{
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 2em;
+}
+#scheduling-details h2{
+    font-weight: 300;
+    font-size: 1.6em;
+    margin-bottom: 1em;
+}
+#scheduling-details .scheduling-services{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+#scheduling-details .scheduling-services:last-child{
+    border-bottom: none;
+}
+#scheduling-details .scheduling-services h3{
+    font-weight: 300;
+    font-size: 1.2em;
+}
+
+/* Privacy */
+
+.privacy{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.privacy main{
+    flex: 1;
+    overflow-y: auto;
+    text-align: justify;
+}
+.privacy main, .privacy footer, .privacy main figure{
+    padding: 2em;
+}
+.privacy main figure img{
+    height: 128px;
+}

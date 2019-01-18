@@ -1,0 +1,161 @@
+{% set url = app.request.attributes.get('_route') %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <title>Beleza.com | Franqueado</title>
+
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css" />
+        <link href="{{asset("theme/plugins/bootstrap/css/bootstrap.css")}}" rel="stylesheet" />
+        <link href="{{asset("theme/css/themes/theme-beleza.css")}}" rel="stylesheet" />
+        <link href="{{asset("theme/plugins/node-waves/waves.css")}}" rel="stylesheet" />
+        <link href="{{asset("style.css")}}" rel="stylesheet">
+
+        {% block style %}
+        {% endblock %}
+
+        <link href="{{asset("theme/css/style.css")}}" rel="stylesheet">
+    </head>
+
+    <body class="theme-beleza">
+        <div class="page-loader-wrapper">
+            <div class="loader">
+                <div class="preloader">
+                    <div class="spinner-layer pl-pink">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <p>Carregando...</p>
+            </div>
+        </div>
+        <div class="overlay"></div>
+
+        <nav class="navbar">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="bars"></a>
+                    <a href="/franqueado" class="navbar-brand"><img src="{{asset("img/icon.png")}}" /> Franqueado</a>
+                </div>
+
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="/franqueado/logout" title="Sair"><i class="material-icons">power_settings_new</i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <section>
+            <aside id="leftsidebar" class="sidebar">
+                <div class="menu">
+                    <ul class="list">
+                        <li class="header">MENU</li>
+                        <li class="{% if url == 'IndexFranchisee' %}active{% endif %}">
+                            <a href="{{path('IndexFranchisee')}}">
+                                <i class="material-icons">dashboard</i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="{% if url == "CreateProviderFranchisee" or url == "ListProviderFranchisee" %}active{% endif %}">
+                            <a class="menu-toggle">
+                                <i class="material-icons">person</i>
+                                <span>Prestadores de serviço</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li class="{% if url == "CreateProviderFranchisee" %}active{% endif %}">
+                                    <a href="{{path("CreateProviderFranchisee")}}">Criar</a>
+                                </li>
+                                <li class="{% if url == "ListProviderFranchisee" %}active{% endif %}">
+                                    <a href="{{path("ListProviderFranchisee")}}">Visualizar</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="{% if url == 'ListClientFranchisee' %}active{% endif %}">
+                            <a href="{{path('ListClientFranchisee')}}">
+                                <i class="material-icons">person</i>
+                                <span>Clientes</span>
+                            </a>
+                        </li>
+                        <li class="{% if url == 'FinancesFranchisee' %}active{% endif %}">
+                            <a href="{{path('FinancesFranchisee')}}">
+                                <i class="material-icons">attach_money</i>
+                                <span>Financeiro</span>
+                            </a>
+                        </li>
+                        <li class="{% if url == "CreateAdFranchisee" or url == "ListAdFranchisee" %}active{% endif %}">
+                            <a class="menu-toggle">
+                                <i class="material-icons">stars</i>
+                                <span>Anúncios</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li class="{% if url == "CreateAdFranchisee" %}active{% endif %}">
+                                    <a href="{{path("CreateAdFranchisee")}}">Criar</a>
+                                </li>
+                                <li class="{% if url == "ListAdFranchisee" %}active{% endif %}">
+                                    <a href="{{path("ListAdFranchisee")}}">Visualizar</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="{% if url == "StatsSchedulingFranchisee" or url == "StatsFinanceFranchisee" or url == "StatsAvgPriceFranchisee" or url == "StatsTopSchedulingFranchisee" %}active{% endif %}">
+                            <a class="menu-toggle">
+                                <i class="material-icons">insert_chart</i>
+                                <span>Estatísticas</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li class="{% if url == "StatsSchedulingFranchisee" %}active{% endif %}">
+                                    <a href="{{path("StatsSchedulingFranchisee")}}">Agendamentos</a>
+                                </li>
+                                <li class="{% if url == "StatsFinanceFranchisee" %}active{% endif %}">
+                                    <a href="{{path("StatsFinanceFranchisee")}}">Movimentações serviços</a>
+                                </li>
+                                <li class="{% if url == "StatsAvgPriceFranchisee" %}active{% endif %}">
+                                    <a href="{{path("StatsAvgPriceFranchisee")}}">Médias de preço</a>
+                                </li>
+                                <li class="{% if url == "StatsTopSchedulingFranchisee" %}active{% endif %}">
+                                    <a href="{{path("StatsTopSchedulingFranchisee")}}">Mais agendados</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="{% if url == 'PrivacyFranchisee' %}active{% endif %}">
+                            <a href="{{path('PrivacyFranchisee')}}">
+                                <i class="material-icons">info</i>
+                                <span>Termos de uso</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="block-header">
+                    <h2>{% block title %}{% endblock %}</h2>
+                </div>
+            </div>
+
+            {% block body %}
+            {% endblock %}
+        </section>
+
+    </body>
+
+    <script src="{{asset("theme/plugins/jquery/jquery.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/bootstrap/js/bootstrap.js")}}"></script>
+    <script src="{{asset("theme/plugins/node-waves/waves.js")}}"></script>
+    <script src="{{asset("theme/js/admin.js")}}"></script>
+
+    {% block script %}
+    {% endblock %}
+</html>

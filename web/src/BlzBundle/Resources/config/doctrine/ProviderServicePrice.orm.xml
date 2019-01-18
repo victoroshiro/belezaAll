@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="BlzBundle\Entity\ProviderServicePrice" table="provider_service_price">
+    <indexes>
+      <index name="fk_provider_service_price_provider_payment1_idx" columns="provider_payment"/>
+      <index name="fk_provider_service_price_provider_service1_idx" columns="provider_service"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="price" type="float" column="price" precision="10" scale="0" nullable="false"/>
+    <many-to-one field="providerPayment" target-entity="ProviderPayment" fetch="LAZY">
+      <join-columns>
+        <join-column name="provider_payment" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="providerService" target-entity="ProviderService" fetch="LAZY">
+      <join-columns>
+        <join-column name="provider_service" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

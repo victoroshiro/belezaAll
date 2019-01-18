@@ -1,0 +1,125 @@
+<ion-header>
+
+  <ion-navbar>
+    <button *ngIf="!completeRegister" ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>{{completeRegister ? 'Completar cadastro' : 'Perfil'}}</ion-title>
+
+    <ion-buttons *ngIf="completeRegister" end>
+      <button (click)="logout()" ion-button><ion-icon name="exit"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <figure text-center>
+    <img (click)="photoOptions()" [src]="user.newPhoto ? user.newPhoto : user.photo ? web.url + '/upload/provider/' + user.photo : 'assets/imgs/provider.png'" />
+  </figure>
+
+  <form #userEdit="ngForm" (ngSubmit)="edit(userEdit)">
+    <ion-input type="hidden" name="id" [(ngModel)]="user.id"></ion-input>
+    <ion-input type="hidden" name="photo" [(ngModel)]="user.newPhoto"></ion-input>
+
+    <div padding>
+      <ion-item>
+        <ion-label floating>Nome de exibição</ion-label>
+        <ion-input type="text" name="name" [(ngModel)]="user.name" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Nome do responsável</ion-label>
+        <ion-input type="text" name="sponsor_name" [(ngModel)]="user.sponsorName" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Descrição do profissional</ion-label>
+        <ion-textarea rows="4" name="description" [(ngModel)]="user.description" required></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Data de nascimento</ion-label>
+        <ion-datetime name="birth" [(ngModel)]="user.birth"
+          displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY"
+          monthNames="janeiro, fevereiro, março, abril, maio, junho, julho, agosto, setembro, outubro, novembro, dezembro"
+          monthShortNames="jan, fev, mar, abr, mai, jun, jul, ago, set, out, nov, dez"
+          dayNames="domingo, segunda-feira, terça-feira, quarta-feira, quinta-feira, sexta-feira, sábado"
+          dayShortNames="dom, seg, ter, qua, qui, sex, sab" required></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Email</ion-label>
+        <ion-input type="text" name="email" [(ngModel)]="user.email" disabled></ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="!completeRegister">
+        <ion-label floating>Senha</ion-label>
+        <ion-input type="password" name="password" [(ngModel)]="user.password"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>CPF</ion-label>
+        <ion-input type="text" name="cpf" [(ngModel)]="user.cpf" [brmasker]="{mask:'000.000.000-00', len:14}"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>CNPJ</ion-label>
+        <ion-input type="text" name="cnpj" [(ngModel)]="user.cnpj" [brmasker]="{mask:'00.000.0000/000-00', len:18}"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Telefone</ion-label>
+        <ion-input type="tel" name="phone" [(ngModel)]="user.phone" [brmasker]="{mask:'(00) 0000-0000', len:14}"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Celular</ion-label>
+        <ion-input type="tel" name="celphone" [(ngModel)]="user.celphone" [brmasker]="{mask:'(00) 00000-0000', len:15}"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>CEP</ion-label>
+        <ion-input type="text" name="cep" [(ngModel)]="user.cep" (ionBlur)="getAddressByCep(user.cep)" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Rua</ion-label>
+        <ion-input type="text" name="street" [(ngModel)]="user.street" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Bairro</ion-label>
+        <ion-input type="text" name="neighborhood" [(ngModel)]="user.neighborhood" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Número</ion-label>
+        <ion-input type="number" name="number" [(ngModel)]="user.number" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Estado</ion-label>
+        <ion-select name="state" [(ngModel)]="user.state" (ionChange)="getCities(user.state)" required>
+          <ion-option *ngFor="let s of states" value="{{s.uf}}">{{s.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item (click)="showCitiesModal()" class="bind-event">
+        <ion-label floating>Cidade</ion-label>
+        <ion-select name="city" [(ngModel)]="user.city" required>
+          <ion-option *ngFor="let c of cities" value="{{c.id}}">{{c.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Atendimento a domicilio</ion-label>
+        <ion-checkbox name="home_care" [(ngModel)]="homeCare" color="saloon"></ion-checkbox>
+      </ion-item>
+    </div>
+
+    <button [disabled]="!userEdit.valid" color="rose" ion-button full large>{{completeRegister ? 'Continuar' : 'Salvar'}}</button>
+  </form>
+</ion-content>

@@ -1,0 +1,157 @@
+{% extends "base-franchisee.html.twig" %}
+
+{% block style %}
+    <link href="{{asset("theme/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css")}}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <p>{% if provider %}Agendamentos de {{provider.name}}{% else %}Profissional não encontrado{% endif %}</p>
+                </div>
+                <div class="body table-responsive">
+                    <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                        <li role="presentation" class="active"><a href="#waiting" data-toggle="tab">AGUARDANDO</a></li>
+                        <li role="presentation"><a href="#canceled" data-toggle="tab">CANCELADOS</a></li>
+                        <li role="presentation"><a href="#finalized" data-toggle="tab">FINALIZADOS</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="waiting">
+                            <table class="table dataTableWaiting">
+                                <thead>
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <th>Data</th>
+                                        <th>Horário</th>
+                                        <th>A domicilio</th>
+                                        <th>Método de pagamento</th>
+                                        <th>Detalhes</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for w in waiting %}
+                                        <tr>
+                                            <td>{{w.user.name}}</td>
+                                            <td>{{w.date | date("d/m/Y")}}</td>
+                                            <td>{{w.time | date("H:i")}}</td>
+                                            <td>{% if w.homeCare %}Sim{% else %}Não{% endif %}</td>
+                                            <td>{{w.paymentMethod.name}}</td>
+                                            <td><a href="/franqueado/agendamento/{{w.id}}/" target="_blank"><i class="material-icons">search</i></a></td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="canceled">
+                            <table class="table dataTableCanceled">
+                                <thead>
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <th>Data</th>
+                                        <th>Horário</th>
+                                        <th>A domicilio</th>
+                                        <th>Método de pagamento</th>
+                                        <th>Detalhes</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for c in canceled %}
+                                        <tr>
+                                            <td>{{c.user.name}}</td>
+                                            <td>{{c.date | date("d/m/Y")}}</td>
+                                            <td>{{c.time | date("H:i")}}</td>
+                                            <td>{% if c.homeCare %}Sim{% else %}Não{% endif %}</td>
+                                            <td>{{c.paymentMethod.name}}</td>
+                                            <td><a href="/franqueado/agendamento/{{c.id}}/" target="_blank"><i class="material-icons">search</i></a></td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="finalized">
+                            <table class="table dataTableFinalized">
+                                <thead>
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <th>Data</th>
+                                        <th>Horário</th>
+                                        <th>A domicilio</th>
+                                        <th>Método de pagamento</th>
+                                        <th>Detalhes</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for f in finalized %}
+                                        <tr>
+                                            <td>{{f.user.name}}</td>
+                                            <td>{{f.date | date("d/m/Y")}}</td>
+                                            <td>{{f.time | date("H:i")}}</td>
+                                            <td>{% if f.homeCare %}Sim{% else %}Não{% endif %}</td>
+                                            <td>{{f.paymentMethod.name}}</td>
+                                            <td><a href="/franqueado/agendamento/{{f.id}}/" target="_blank"><i class="material-icons">search</i></a></td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{asset("theme/plugins/jquery-datatable/jquery.dataTables.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/buttons.flash.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/jszip.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/pdfmake.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/vfs_fonts.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/buttons.html5.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/buttons.print.min.js")}}"></script>
+    <script>
+        var DataTableWaiting, DataTableCanceled, DataTableFinalized, DataTableConfig = {
+            responsive: true,
+            dom: 'Brftip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            order: [],
+            language: {
+                "sEmptyTable": "Nenhum registro encontrado",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ resultados por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            }
+        };
+        
+        DataTableWaiting = $(".dataTableWaiting").DataTable(DataTableConfig);
+        DataTableCanceled = $(".dataTableCanceled").DataTable(DataTableConfig);
+        DataTableFinalized = $(".dataTableFinalized").DataTable(DataTableConfig);
+    </script>
+{% endblock %}

@@ -1,0 +1,58 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Editar serviço</ion-title>
+
+    <ion-buttons end>
+      <button (click)="dismiss()" ion-button clear>
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <form #serviceEdit="ngForm" (ngSubmit)="edit(serviceEdit)">
+    <ion-input type="hidden" name="id" [(ngModel)]="service.id"></ion-input>
+
+    <div padding>
+      <ion-item>
+        <ion-label floating>Nome</ion-label>
+        <ion-input type="text" name="name" [(ngModel)]="service.name" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Descrição</ion-label>
+        <ion-textarea rows="4" name="description" [(ngModel)]="service.description" required></ion-textarea>
+      </ion-item>
+
+      <ion-item *ngFor="let p of service.prices; let i = index;">
+        <ion-label floating>Preço em {{p.payment_method}} <small>(R$)</small></ion-label>
+        <ion-input type="tel" [name]="'price_' + p.id" [(ngModel)]="service.prices[i].price" [brmasker]="{money: true}" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Ordem</ion-label>
+        <ion-input type="number" name="priority" [(ngModel)]="service.priority" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Tempo de realização</ion-label>
+        <ion-select name="time" [(ngModel)]="service.time" required>
+          <ion-option *ngFor="let t of times" [value]="t.id">{{t.time}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Especialidade</ion-label>
+        <ion-select name="specialty" [(ngModel)]="service.specialty" required>
+          <ion-option *ngFor="let s of specialty" [value]="s.id">{{s.specialty}} - {{s.category}}</ion-option>
+        </ion-select>
+      </ion-item>
+    </div>
+
+    <button [disabled]="!serviceEdit.valid" color="rose" ion-button full large>Editar</button>
+  </form>
+</ion-content>

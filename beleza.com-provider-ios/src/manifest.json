@@ -1,0 +1,13 @@
+{
+  "name": "Ionic",
+  "short_name": "Ionic",
+  "start_url": "index.html",
+  "display": "standalone",
+  "icons": [{
+    "src": "assets/imgs/saloon_logo.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }],
+  "background_color": "#943E95",
+  "theme_color": "#943E95"
+}

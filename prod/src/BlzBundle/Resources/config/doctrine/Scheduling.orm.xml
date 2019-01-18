@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="BlzBundle\Entity\Scheduling" table="scheduling">
+    <indexes>
+      <index name="fk_scheduling_user1_idx" columns="user"/>
+      <index name="fk_scheduling_user2_idx" columns="provider"/>
+      <index name="fk_scheduling_address1_idx" columns="address"/>
+      <index name="fk_scheduling_payment_method1_idx" columns="payment_method"/>
+      <index name="fk_scheduling_finance1_idx" columns="amount"/>
+      <index name="fk_scheduling_finance2_idx" columns="franchisee_tax"/>
+      <index name="fk_scheduling_finance3_idx" columns="system_tax"/>
+      <index name="fk_scheduling_scheduling_status1_idx" columns="status"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="date" type="date" column="date" nullable="false"/>
+    <field name="time" type="time" column="time" nullable="false"/>
+    <field name="homeCare" type="boolean" column="home_care" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="notes" type="text" column="notes" length="65535" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="datetime" type="string" column="datetime" length="45" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="rating" type="float" column="rating" precision="10" scale="0" nullable="true"/>
+    <many-to-one field="address" target-entity="Address" fetch="LAZY">
+      <join-columns>
+        <join-column name="address" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="amount" target-entity="Finance" fetch="LAZY">
+      <join-columns>
+        <join-column name="amount" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="franchiseeTax" target-entity="Finance" fetch="LAZY">
+      <join-columns>
+        <join-column name="franchisee_tax" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="systemTax" target-entity="Finance" fetch="LAZY">
+      <join-columns>
+        <join-column name="system_tax" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="paymentMethod" target-entity="PaymentMethod" fetch="LAZY">
+      <join-columns>
+        <join-column name="payment_method" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="status" target-entity="SchedulingStatus" fetch="LAZY">
+      <join-columns>
+        <join-column name="status" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="user" target-entity="User" fetch="LAZY">
+      <join-columns>
+        <join-column name="user" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="provider" target-entity="User" fetch="LAZY">
+      <join-columns>
+        <join-column name="provider" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

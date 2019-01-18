@@ -1,0 +1,78 @@
+{% extends "base-admin.html.twig" %}
+
+{% block style %}
+    <link href="{{asset("theme/plugins/sweetalert/sweetalert.css")}}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <p>Editar administrador</p>
+                </div>
+                <div class="body">            
+                    {% if admin %}
+                        <form id="admin-edit">
+                            <input type="hidden" name="id" value="{{admin.id}}" />
+
+                            <div class="form-group form-float row">
+                                <div class="col-md-12">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="name" value="{{admin.name}}" maxlength="128" required>
+                                        <label class="form-label">Nome</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-line">
+                                        <input type="email" class="form-control" name="email" value="{{admin.email}}" maxlength="128" required>
+                                        <label class="form-label">Email</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-line">
+                                        <input type="password" class="form-control" name="password">
+                                        <label class="form-label">Senha</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <button id="establishment-submit" class="btn bg-pink waves-effect">EDITAR</button>
+                                </div>
+                            </div>
+                        </form>
+                    {% else %}
+                        <p>Administrador não encontrado</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{asset("theme/plugins/sweetalert/sweetalert.min.js")}}"></script>
+    <script>
+        $("#admin-edit").submit(function(e){
+            e.preventDefault();
+
+            $.ajax({
+                method: "POST",
+                url: "/admin/edit/",
+                data: $(this).serialize(),
+                success: function(){
+                    swal({
+                        title: "Sucesso",
+                        text: "Administrador editado com sucesso",
+                        type: "success"
+                    });
+                },
+                error: function(data){
+                    swal("Erro", data.responseText, "error");
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,32 @@
+page-filter {
+    h2{
+        font-size: 1.1em;
+        font-weight: 400;
+        padding: 0.8em 0em;
+        color: map-get($colors, "salon");
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    ion-item{
+        border-bottom: none;
+        padding-left: 0px !important;
+
+        .item-inner{
+            border-bottom: none !important;
+        }
+    }
+
+    .address{
+        ion-input{
+            input{
+                margin: 0px !important;
+            }
+        }
+
+        ion-col[col-12]{
+            ion-item{
+                margin-top: -1em;
+            }
+        }
+    }
+}

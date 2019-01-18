@@ -1,0 +1,19 @@
+<ion-menu [content]="content">
+    <ion-content>
+        <header (click)="setPage('ProfilePage')" menuClose>
+            <img [src]="user.photo ? web.url + '/upload/provider/' + user.photo : 'assets/imgs/provider.png'" />
+            <h3>{{user.name}}</h3>
+            <p>{{user.email}}</p>
+        </header>
+
+        <ion-list no-lines>
+            <button *ngFor="let p of pages" (click)="setPage(p.component, p.callback)" menuClose ion-item>
+                <ion-icon [name]="p.icon" item-start></ion-icon>
+                {{p.name}}
+                <ion-badge *ngIf="p.badge > 0" color="saloon" item-end>{{p.badge}}</ion-badge>
+            </button>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

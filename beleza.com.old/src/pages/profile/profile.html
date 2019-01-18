@@ -1,0 +1,67 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Perfil</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-card *ngIf="user.social" text-center>
+    <ion-card-content>Algumas informações só podem ser alteradas pelo seu <b>Facebook ou Conta Google</b></ion-card-content>
+  </ion-card>
+
+  <figure text-center>
+    <img *ngIf="user.social" [src]="user.photo ? user.photo : 'assets/imgs/profile.jpg'" />
+    <img (click)="photoOptions()" *ngIf="!user.social" [src]="user.newPhoto ? user.newPhoto : user.photo ? web.url + '/upload/user/' + user.photo : 'assets/imgs/profile.jpg'" />
+  </figure>
+
+  <form #userEdit="ngForm" (ngSubmit)="edit(userEdit)">
+    <ion-input type="hidden" name="id" [(ngModel)]="user.id"></ion-input>
+    <ion-input type="hidden" name="photo" [(ngModel)]="user.photo"></ion-input>
+
+    <div padding>      
+      <ion-item>
+        <ion-label><ion-icon name="person"></ion-icon></ion-label>
+        <ion-input [disabled]="user.social" type="text" name="name" [(ngModel)]="user.name" placeholder="Nome completo" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label><ion-icon name="call"></ion-icon></ion-label>
+        <ion-input type="tel" name="phone" [(ngModel)]="user.phone" [brmasker]="{mask: '(00) 0000-0000', len: 14}" placeholder="Telefone"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label><ion-icon name="call"></ion-icon></ion-label>
+        <ion-input type="tel" name="celphone" [(ngModel)]="user.celphone" [brmasker]="{mask: '(00) 00000-0000', len: 15}" placeholder="Celular" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label><ion-icon name="card"></ion-icon></ion-label>
+        <ion-input type="text" name="rg" [(ngModel)]="user.rg" [brmasker]="{mask: '00.000.000-0', len: 12}" placeholder="RG" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label><ion-icon name="card"></ion-icon></ion-label>
+        <ion-input type="text" name="cpf" [(ngModel)]="user.cpf" [brmasker]="{mask: '000.000.000-00', len: 14}" placeholder="CPF" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label><ion-icon name="mail"></ion-icon></ion-label>
+        <ion-input type="email" name="email" [(ngModel)]="user.email" placeholder="Email" disabled></ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="!user.social">
+        <ion-label><ion-icon name="lock"></ion-icon></ion-label>
+        <ion-input type="password" name="password" [(ngModel)]="user.password" placeholder="Senha"></ion-input>
+      </ion-item>
+    </div>
+
+    <button [disabled]="!userEdit.valid" color="rose" ion-button full large>Salvar</button>
+  </form>
+</ion-content>

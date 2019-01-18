@@ -1,0 +1,74 @@
+{% extends "base-admin.html.twig" %}
+
+{% block style %}
+    <link href="{{asset("theme/plugins/sweetalert/sweetalert.css")}}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <p>Criar administrador</p>
+                </div>
+                <div class="body">            
+                    <form id="admin-create">
+                        <div class="form-group form-float row">
+                            <div class="col-md-12">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="name" maxlength="128" required>
+                                    <label class="form-label">Nome</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-line">
+                                    <input type="email" class="form-control" name="email" maxlength="128" required>
+                                    <label class="form-label">Email</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-line">
+                                    <input type="password" class="form-control" name="password" required>
+                                    <label class="form-label">Senha</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <button id="establishment-submit" class="btn bg-pink waves-effect">CRIAR</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{asset("theme/plugins/sweetalert/sweetalert.min.js")}}"></script>
+    <script>
+        $("#admin-create").submit(function(e){
+            e.preventDefault();
+
+            $.ajax({
+                method: "POST",
+                url: "/admin/create/",
+                data: $(this).serialize(),
+                success: function(){
+                    swal({
+                        title: "Sucesso",
+                        text: "Administrador criado com sucesso",
+                        type: "success"
+                    }, function(){
+                        window.location.href = "/admin/administradores/";
+                    });
+                },
+                error: function(data){
+                    swal("Erro", data.responseText, "error");
+                }
+            });
+        });
+    </script>
+{% endblock %}

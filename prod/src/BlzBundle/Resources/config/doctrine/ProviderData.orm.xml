@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="BlzBundle\Entity\ProviderData" table="provider_data">
+    <indexes>
+      <index name="fk_provider_data_address1_idx" columns="address"/>
+      <index name="fk_provider_data_user1_idx" columns="franchisee"/>
+      <index name="fk_provider_data_plan1_idx" columns="plan"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="name" type="string" column="name" length="128" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="description" type="text" column="description" length="65535" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="cpf" type="string" column="cpf" length="11" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+      </options>
+    </field>
+    <field name="cnpj" type="string" column="cnpj" length="14" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+      </options>
+    </field>
+    <field name="birth" type="date" column="birth" nullable="true"/>
+    <field name="phone" type="string" column="phone" length="11" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="celphone" type="string" column="celphone" length="11" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="photo" type="string" column="photo" length="256" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="coordX" type="float" column="coord_x" precision="10" scale="0" nullable="true"/>
+    <field name="coordY" type="float" column="coord_y" precision="10" scale="0" nullable="true"/>
+    <field name="homeCare" type="boolean" column="home_care" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="push" type="string" column="push" length="36" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+      </options>
+    </field>
+    <field name="pushWeb" type="string" column="push_web" length="36" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+      </options>
+    </field>
+    <field name="points" type="integer" column="points" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="rating" type="float" column="rating" precision="10" scale="0" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <many-to-one field="address" target-entity="Address" fetch="LAZY">
+      <join-columns>
+        <join-column name="address" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="plan" target-entity="Plan" fetch="LAZY">
+      <join-columns>
+        <join-column name="plan" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="franchisee" target-entity="User" fetch="LAZY">
+      <join-columns>
+        <join-column name="franchisee" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

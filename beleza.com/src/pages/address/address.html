@@ -1,0 +1,44 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    
+    <ion-title>Meus endereços</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-refresher (ionRefresh)="refreshAddresses($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card *ngIf="!addresses.length" text-center>
+    <ion-card-content>Não há endereços</ion-card-content>
+  </ion-card>
+
+  <ion-list *ngIf="addresses.length" padding>
+    <ion-item-sliding *ngFor="let a of addresses; let i = index">
+      <ion-item>
+        <h2>{{a.street}}</h2>
+        <p>{{a.cep}} | {{a.neighborhood}}, {{a.number}}</p>
+        <p>{{a.city}} - {{a.state}}</p>
+      </ion-item>
+      <ion-item-options side="right">
+        <button (click)="deleteAddress(a.id, i)" ion-button color="danger">
+          <ion-icon name="trash"></ion-icon>
+          Excluir
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-fab bottom right>
+    <button (click)="addAddress()" color="salon" ion-fab>
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

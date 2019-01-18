@@ -1,0 +1,78 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+
+    encoders:
+        BlzBundle\Entity\User:
+            algorithm: md5
+            encode_as_base64: false
+            iterations: 0
+
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        auth_provider:
+            entity:
+                class: BlzBundle:User
+                property: email
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        admin_secured_area:
+            pattern:   ^/admin
+            anonymous: ~
+            provider: auth_provider
+            form_login:
+                login_path: LoginAdmin
+                check_path: LoginAdmin
+                default_target_path: /admin
+            logout:
+                path:   /admin/logout
+                target: LoginAdmin
+            remember_me:
+                secret:   '%secret%'
+                lifetime: 604800
+                path:     /
+            
+        franchisee_secured_area:
+            pattern:   ^/franqueado
+            anonymous: ~
+            provider: auth_provider
+            form_login:
+                login_path: LoginFranchisee
+                check_path: LoginFranchisee
+                default_target_path: /franqueado
+            logout:
+                path:   /franqueado/logout
+                target: LoginFranchisee
+            remember_me:
+                secret:   '%secret%'
+                lifetime: 604800
+                path:     /
+        
+        provider_secured_area:
+            pattern:   ^/prestador-servico
+            anonymous: ~
+            provider: auth_provider
+            form_login:
+                login_path: LoginProvider
+                check_path: LoginProvider
+                default_target_path: /prestador-servico
+            logout:
+                path:   /prestador-servico/logout
+                target: LoginProvider
+            remember_me:
+                secret:   '%secret%'
+                lifetime: 604800
+                path:     /
+
+    access_control:
+         - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/franqueado/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/franqueado, roles: ROLE_FRANCHISEE }
+         - { path: ^/prestador-servico/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/prestador-servico, roles: ROLE_PROVIDER }

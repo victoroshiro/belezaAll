@@ -1,0 +1,31 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Chat</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-card *ngIf="!chat.length" text-center>
+    <ion-card-content>Não há conversas</ion-card-content>
+  </ion-card>
+
+  <ion-list *ngIf="chat.length" padding>
+    <button *ngFor="let c of chat" (click)="navCtrl.push('ChatPage', {user: c.user})" ion-item>
+      <ion-avatar item-start>
+        <img [src]="c.photo ? web.url + '/upload/user/' + c.photo : 'assets/imgs/profile.jpg'" />
+      </ion-avatar>
+
+      <h2>{{c.name}}</h2>
+      <p>{{c.last_datetime}} - {{c.last_message}}</p>
+      
+      <ion-badge *ngIf="c.badge" color="saloon" item-end>{{c.badge}}</ion-badge>
+    </button>
+  </ion-list>
+</ion-content>

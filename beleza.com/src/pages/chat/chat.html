@@ -1,0 +1,34 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title *ngIf="chat">{{chat.name}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <main *ngIf="chat">
+    <div class="chat-list" #chatList [scrollTop]="chatList.scrollHeight" padding>
+      <div *ngFor="let c of chat.chat" [ngClass]="{'chat-send clearfix': c.from_user == user.id, 'chat-received': c.from_user != user.id}">
+        <img *ngIf="c.from_user == user.id" class="chat-profile" [src]="user.photo ? web.url + '/upload/user/' + user.photo : 'assets/imgs/profile.jpg'" />
+        <img *ngIf="c.from_user != user.id" class="chat-profile" [src]="chat.photo ? web.url + '/upload/provider/' + chat.photo : 'assets/imgs/provider.png'" />
+
+        <div class="chat-content">
+          <div class="chat-time">{{c.datetime}}</div>
+          
+          {{c.message}}
+        </div>
+      </div>
+    </div>
+    
+    <div class="chat-input">
+      <input [(ngModel)]="message" placeholder="Digite a mensagem" />
+      <ion-icon (click)="sendMessage(message)" name="send"></ion-icon>
+    </div>
+  </main>
+</ion-content>

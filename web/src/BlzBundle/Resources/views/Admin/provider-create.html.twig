@@ -1,0 +1,269 @@
+{% extends "base-admin.html.twig" %}
+
+{% block style %}
+    <link href="{{asset("theme/plugins/bootstrap-select/css/bootstrap-select.css")}}" rel="stylesheet" />
+    <link href="{{asset("theme/plugins/sweetalert/sweetalert.css")}}" rel="stylesheet" />
+    <link href="{{asset("theme/plugins/light-gallery/css/lightgallery.css")}}" rel="stylesheet" />
+    <link href="{{asset("theme/plugins/croppie/croppie.css")}}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <p>Criar prestador de serviço</p>
+                </div>
+                <div class="body">
+                    <p>Adicione uma imagem</p>
+                    <div id="img-gallery" class="row clearfix" data-limit="1">
+                        <div class="col-xs-3 col-lg-3 col-md-3 col-sm-6 add-image align-center" data-toggle="modal" data-target="#img-modal">
+                            <span data-toggle="tooltip" data-placement="top" title="Adicionar imagem">
+                                <i class="material-icons">add</i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <form id="provider-create">
+                        <input type="hidden" name="coord_x" />
+                        <input type="hidden" name="coord_y" />
+
+                        <div class="form-group form-float row">
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="name" maxlength="128" required>
+                                    <label class="form-label">Nome de exibição</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="sponsor_name" maxlength="128" required>
+                                    <label class="form-label">Nome do Responsável</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-line">
+                                    <textarea class="form-control no-resize" name="description" rows="4" required></textarea>
+                                    <label class="form-label">Descrição do profissional</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <p>Franqueado</p>
+                                <select name="franchisee" class="form-control show-tick">
+                                    <option value="" selected>Nenhum</option>
+                                    {% for f in franchisee %}
+                                        <option value="{{f.id}}">{{f.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-12">
+                                <p>Plano</p>
+                                <select name="plan" class="form-control show-tick">
+                                    {% for p in plan %}
+                                        <option value="{{p.id}}">{{p.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="birth" required>
+                                    <label class="form-label">Data de nascimento</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="email" class="form-control" name="email" maxlength="128" required>
+                                    <label class="form-label">Email</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="password" class="form-control" name="password" required>
+                                    <label class="form-label">Senha</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="cpf">
+                                    <label class="form-label">CPF</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="cnpj">
+                                    <label class="form-label">CNPJ</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="phone">
+                                    <label class="form-label">Telefone</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="celphone">
+                                    <label class="form-label">Celular</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12"></div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="cep" required>
+                                    <label class="form-label">CEP</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="street" maxlength="128" required>
+                                    <label class="form-label">Rua</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="neighborhood" maxlength="64" required>
+                                    <label class="form-label">Bairro</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="number" required>
+                                    <label class="form-label">Número</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <p>Estado</p>
+                                <select name="state" class="form-control show-tick" required>
+                                    {% for s in states %}
+                                        <option value="{{s.uf}}" {% if s.id == 26 %}selected{% endif %}>{{s.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <p>Cidade</p>
+                                <select name="city" class="form-control show-tick" required>
+                                    {% for c in city %}
+                                        <option value="{{c.id}}" {% if c.id == 5270 %}selected{% endif %}>{{c.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-12">
+                                <input type="checkbox" id="home_care" name="home_care" class="filled-in chk-col-pink" />
+                                <label for="home_care">Atendimento a domicílio</label>
+                            </div>
+
+                            <div class="col-md-12">
+                                <br />
+                                <button id="establishment-submit" class="btn bg-pink waves-effect">CRIAR</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="img-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Adicionar imagem</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="file" data-width="200" data-height="200" />
+
+                    <br />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="save-img btn btn-link waves-effect" disabled>SALVAR</button>
+                    <button type="button" class="close-img btn btn-link waves-effect">FECHAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{asset("theme/plugins/bootstrap-select/js/bootstrap-select.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-inputmask/jquery.inputmask.bundle.js")}}"></script>
+    <script src="{{asset("theme/plugins/sweetalert/sweetalert.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/light-gallery/js/lightgallery-all.js")}}"></script>
+    <script src="{{asset("theme/plugins/croppie/croppie.min.js")}}"></script>
+    <script src="{{asset("script.js")}}"></script>
+    <script>
+        $("input[name='birth']").inputmask('dd/mm/yyyy', { placeholder: '__/__/____' });
+        $("input[name='cpf']").inputmask("999.999.999-99");
+        $("input[name='cnpj']").inputmask("99.999.999/9999-99");
+        $("input[name='phone']").inputmask("(99) 9999-9999");
+        $("input[name='celphone']").inputmask("(99) 99999-9999");
+
+        $("input[name='cep']").blur(function(){
+            if($(this).val() != ""){
+                getLocation($(this).val(), changeAdressForm);
+            }
+        });
+
+        $("select[name='state']").change(function(){
+            changeCities($(this), $("select[name='city']"), $("#establishment-submit"));
+        });
+
+        $("#provider-create").submit(function(e){
+            e.preventDefault();
+
+            var ref = this;
+
+            /*if(!validCPF($("input[name='cpf']").val())){
+                swal("Erro", "O CPF informado é inválido.", "error");
+
+                return false;
+            }
+
+            if(!validCNPJ($("input[name='cnpj']").val())){
+                swal("Erro", "O CNPJ informado é inválido.", "error");
+
+                return false;
+            }*/
+
+            getCoords($(this), function(){
+                $.ajax({
+                    method: "POST",
+                    url: "/admin/provider/create/",
+                    data: $(ref).serialize() + "&photo=" + getGallery(),
+                    success: function(){
+                        swal({
+                            title: "Sucesso",
+                            text: "Prestador de serviço criado com sucesso",
+                            type: "success"
+                        }, function(){
+                            window.location.href = "/admin/prestadores-servico/";
+                        });
+                    },
+                    error: function(data){
+                        swal("Erro", data.responseText, "error");
+                    }
+                });
+            }, function(){
+                swal("Erro", "Não foi possível localizar o endereço.", "error");
+            });
+        });
+    </script>
+{% endblock %}

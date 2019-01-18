@@ -1,0 +1,93 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Filtro</ion-title>
+
+    <ion-buttons end>
+      <button (click)="dismiss()" ion-button><ion-icon name="close"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <form #filterForm="ngForm" (ngSubmit)="filterApply(filterForm)">
+    <main padding>
+
+      <h2>Localização</h2>
+
+      <ion-list name="location" [(ngModel)]="filter.location" radio-group>
+        <ion-item>
+          <ion-label>Usar minha localização</ion-label>
+          <ion-radio value="geo" color="salon"></ion-radio>
+        </ion-item>
+
+        <ion-item *ngIf="filter.location == 'geo'">
+          <ion-range min="1" max="200" name="distance" [(ngModel)]="filter.distance" color="salon">
+            <ion-label range-right>{{filter.distance || 1}} km</ion-label>
+          </ion-range>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Usar outra localização</ion-label>
+          <ion-radio value="address" color="salon"></ion-radio>
+        </ion-item>
+        
+        <ion-row class="address" *ngIf="filter.location == 'address'">
+          <ion-col col-6>
+            <ion-item>
+                <ion-label>Estado</ion-label>
+                <ion-select name="state" [(ngModel)]="filter.state" (ionChange)="getCities(filter.state)">
+                  <ion-option *ngFor="let s of states" value="{{s.uf}}">{{s.name}}</ion-option>
+                </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col col-6>
+            <ion-item (click)="showCitiesModal()" class="bind-event">
+                <ion-label>Cidade</ion-label>
+                <ion-select name="city" [(ngModel)]="filter.city">
+                  <ion-option *ngFor="let c of cities" value="{{c.id}}">{{c.name}}</ion-option>
+                </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col col-12>
+            <ion-item>
+              <ion-input name="neighborhood" [(ngModel)]="filter.neighborhood" type="text" placeholder="Bairro"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-list>
+      
+      <h2>Filtros rápidos</h2>
+
+      <ion-list>
+        <ion-item>
+          <ion-input name="provider_service" [(ngModel)]="filter.provider_service" type="text" placeholder="Nome do serviço"></ion-input>
+        </ion-item>
+      </ion-list>
+
+      <ion-item>
+        <ion-label>Atendimento a domicílio</ion-label>
+        <ion-checkbox name="home_care" [(ngModel)]="filter.home_care" color="salon"></ion-checkbox>
+      </ion-item>
+
+      <h2>Ordenação</h2>
+
+      <ion-list name="order" [(ngModel)]="filter.order" radio-group>
+        <ion-item>
+          <ion-label>Melhor pontuação</ion-label>
+          <ion-radio value="score" color="salon"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Menor distância</ion-label>
+          <ion-radio value="distance" color="salon"></ion-radio>
+        </ion-item>
+      </ion-list>
+
+    </main>
+
+    <button color="salon" ion-button full>Filtrar</button>
+  </form>
+</ion-content>

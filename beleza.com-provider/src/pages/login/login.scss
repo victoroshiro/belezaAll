@@ -1,0 +1,46 @@
+page-login {
+    ion-content{
+        background-size: cover;
+        background-position-x: 100%;
+        background-repeat: no-repeat;
+        background-image: url("../assets/imgs/fundo.jpg");
+    }
+
+    .logo{
+        text-align: center;
+
+        img{
+            width: 40%;
+            margin: 20% auto;
+        }
+    }
+
+    ion-item{
+        background-color: transparent !important;
+
+        ion-label{
+            color: rgba(255, 255, 255, 0.87) !important;
+        }
+        ion-input{
+            color: rgba(0, 0, 0, 0.87) !important;
+
+            ion-icon{
+                font-size: 1.5em;
+                margin: 0 0.5em 0 0;
+                transform: translateY(0.1em);
+            }
+        }
+    }
+
+    .password-recovery{
+        margin-top: 4em;
+        margin-right: 1em;
+        text-align: right;
+        font-size: 0.8em;
+        color: rgba(255, 255, 255, 0.7);
+        
+        a{
+            color: #FFFFFF;
+        }
+    }
+}

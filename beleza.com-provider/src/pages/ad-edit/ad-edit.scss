@@ -1,0 +1,18 @@
+page-ad-edit {
+    figure{
+        margin: 0;
+        background-size: cover;
+        background-image: url("../assets/imgs/image-chooser.png");
+
+        img{
+            width: 100%;
+            transition: opacity 0.225s ease-in-out;
+        }
+
+        &:hover, &:active{
+            img{
+                opacity: 0.5;
+            }
+        }
+    }
+}

@@ -1,0 +1,88 @@
+page-scheduling-register {
+    main{
+        ion-item{
+            border-bottom: none;
+            padding-left: 0px !important;
+
+            &:not(.item-textarea){
+                .item-inner{
+                    border-bottom: none !important;
+                }
+            }
+        }
+
+        h2{
+            font-size: 1.1em;
+            font-weight: 400;
+            padding: 0.8em 0em;
+            color: map-get($colors, "saloon");
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    
+            ion-icon{
+                font-size: 2em;
+                color: #000000;
+                margin-top: -0.25em;
+            }
+        }
+
+        .datetime{
+            .datetime-label{
+                padding: 1.3em 0;
+            }
+
+            ion-select{
+                min-width: 100%;
+
+                .select-text{
+                    text-align: right;
+                }
+
+                .select-icon{
+                    margin-left: 1em;
+                }
+            }
+        }
+
+        .payment{
+            width: 75%;
+            padding: 0.5em;
+            margin: 1em 0em;
+            position: relative;
+            border-radius: 3px;
+            border: 2px solid map-get($colors, "saloon");
+
+            &::after{
+                content: "";
+                top: 50%;
+                left: 100%;
+                width: 50%;
+                height: 2px;
+                position: absolute;
+                transform: translateY(-2px);
+                background-color: map-get($colors, "saloon");
+            }
+
+            img{
+                height: 1.8em;
+                margin-right: 1em;
+                vertical-align: middle;
+            }
+
+            ion-label{
+                margin: 0.2em;
+            }
+
+            ion-select{
+                .select-text{
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .submit{
+        padding: 1.6em;
+        font-size: 1.2em;
+        margin-bottom: 1em;
+    }
+}

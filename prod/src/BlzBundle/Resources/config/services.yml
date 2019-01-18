@@ -1,0 +1,4 @@
+services:
+#    blz.example:
+#        class: BlzBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

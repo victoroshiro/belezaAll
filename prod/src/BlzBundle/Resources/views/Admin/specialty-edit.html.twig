@@ -1,0 +1,80 @@
+{% extends "base-admin.html.twig" %}
+
+{% block style %}
+    <link href="{{asset("theme/plugins/bootstrap-select/css/bootstrap-select.css")}}" rel="stylesheet" />
+    <link href="{{asset("theme/plugins/sweetalert/sweetalert.css")}}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <p>Editar especialidade</p>
+                </div>
+                <div class="body">            
+                    {% if specialty %}
+                        <form id="specialty-edit">
+                            <input type="hidden" name="id" value="{{specialty.id}}" />
+
+                            <div class="form-group form-float row">
+                                <div class="col-md-12">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="name" value="{{specialty.name}}" maxlength="128" required>
+                                        <label class="form-label">Nome</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-line">
+                                        <textarea class="form-control no-resize" name="description" rows="4" required>{{specialty.description}}</textarea>
+                                        <label class="form-label">Descrição</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-line">
+                                        <input type="number" class="form-control" name="priority" value="{{specialty.priority}}">
+                                        <label class="form-label">Ordem</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <button id="establishment-submit" class="btn bg-pink waves-effect">EDITAR</button>
+                                </div>
+                            </div>
+                        </form>
+                    {% else %}
+                        <p>Especialidade não econtrada</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{asset("theme/plugins/bootstrap-select/js/bootstrap-select.js")}}"></script>
+    <script src="{{asset("theme/plugins/sweetalert/sweetalert.min.js")}}"></script>
+    <script>
+        $("#specialty-edit").submit(function(e){
+            e.preventDefault();
+
+            $.ajax({
+                method: "POST",
+                url: "/admin/specialty/edit/",
+                data: $(this).serialize(),
+                success: function(){
+                    swal({
+                        title: "Sucesso",
+                        text: "Especialidade editada com sucesso",
+                        type: "success"
+                    });
+                },
+                error: function(data){
+                    swal("Erro", data.responseText, "error");
+                }
+            });
+        });
+    </script>
+{% endblock %}

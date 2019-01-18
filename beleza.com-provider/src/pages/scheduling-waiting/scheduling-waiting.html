@@ -1,0 +1,48 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    
+    <ion-title>Agendamentos <img src="assets/imgs/icon.png" /></ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-refresher (ionRefresh)="refreshScheduling($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card *ngIf="!scheduling.length" text-center>
+    <ion-card-content>Não há agendamentos</ion-card-content>
+  </ion-card>
+
+  <ion-list *ngIf="scheduling.length" padding>
+    <ion-item-sliding *ngFor="let s of scheduling; let i = index">
+      <ion-item (click)="navCtrl.push('SchedulingDetailsPage', {id: s.id})">
+        <ion-avatar item-start>
+          <img *ngIf="s.social == 0" [src]="s.photo ? web.url + '/upload/user/' + s.photo : 'assets/imgs/profile.jpg'" />
+          <img *ngIf="s.social == 1" [src]="s.photo" />
+        </ion-avatar>
+
+        <h2>{{s.name}}</h2>
+        <p>{{s.date}} {{s.time}} - {{s.services}}</p>
+      </ion-item>
+      <ion-item-options side="right">
+        <button (click)="finalizeScheduling(s.id)" ion-button color="primary">
+          <ion-icon name="thumbs-up"></ion-icon>
+          Finalizar
+        </button>
+      </ion-item-options>
+      <ion-item-options side="left">
+        <button (click)="cancelScheduling(s.id)" ion-button color="danger">
+          <ion-icon name="thumbs-down"></ion-icon>
+          Cancelar
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

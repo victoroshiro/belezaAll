@@ -1,0 +1,19 @@
+<ion-content>
+  <div class="privacy">
+    <header>
+      <button (click)="logout()" float-right clear ion-button><ion-icon name="exit"></ion-icon></button>
+    </header>
+
+    <main>
+      <figure text-center>
+        <img src="assets/imgs/saloon_logo.png" />
+      </figure>
+
+      <div [innerHTML]="privacy"></div>
+    </main>
+
+    <footer text-center>
+      <button (click)="acceptPrivacy()" color="rose" ion-button>{{readOnly ? 'Continuar' : 'Aceitar e continuar'}}</button>
+    </footer>
+  </div>
+</ion-content>

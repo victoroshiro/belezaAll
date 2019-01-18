@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "471219654579",
+    "firebase_url": "https://beleza-1519306344174.firebaseio.com",
+    "project_id": "beleza-1519306344174",
+    "storage_bucket": "beleza-1519306344174.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:471219654579:android:8c68672151e2b6f0",
+        "android_client_info": {
+          "package_name": "br.com.fuston.beleza"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "471219654579-e2ceu6ak74p9kqqld08mhq28c0an7d5n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.fuston.beleza",
+            "certificate_hash": "a1d9538e7a6bb03dc72b50925b55b6c901879307"
+          }
+        },
+        {
+          "client_id": "471219654579-ai919keb3ik7gclcuqh28muivh68doob.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9admD82pHcEYXKOb-Wqww25MY8lFsxDA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "471219654579-ai919keb3ik7gclcuqh28muivh68doob.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

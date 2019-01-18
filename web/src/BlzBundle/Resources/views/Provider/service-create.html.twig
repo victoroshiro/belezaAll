@@ -1,0 +1,122 @@
+{% extends "base-provider.html.twig" %}
+
+{% block style %}
+    <link href="{{asset("theme/plugins/bootstrap-select/css/bootstrap-select.css")}}" rel="stylesheet" />
+    <link href="{{asset("theme/plugins/sweetalert/sweetalert.css")}}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <p>Criar serviço</p>
+                </div>
+                <div class="body">            
+                    {% if specialty %}
+                        <form id="service-create">
+                            <div class="form-group form-float row">
+                                <div class="col-md-12">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="name" maxlength="128" required>
+                                        <label class="form-label">Nome</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-line">
+                                        <textarea class="form-control no-resize" name="description" rows="4" required></textarea>
+                                        <label class="form-label">Descrição</label>
+                                    </div>
+                                </div>
+
+                                {% for p in provider_payment %}
+                                    <div class="col-md-12">
+                                        <div class="form-line">
+                                            <input type="text" class="form-control provider-service-price" name="price_{{p.id}}" required>
+                                            <label class="form-label">Preço em {{p.paymentMethod.name}}</label>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                                <div class="col-md-12">
+                                    <div class="form-line">
+                                        <input type="number" class="form-control" name="priority">
+                                        <label class="form-label">Ordem</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <p>Tempo de realização</p>
+                                    <select name="time" class="form-control show-tick" required>
+                                        {% for t in times %}
+                                            <option value="{{t.id}}">{{t.time}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <p>Especialidade</p>
+                                    <select name="specialty" class="form-control show-tick" required>
+                                        {% for s in specialty %}
+                                            <option value="{{s.id}}">{{s.name}} - {{s.category.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <button id="establishment-submit" class="btn bg-pink waves-effect">CRIAR</button>
+                                </div>
+                            </div>
+                        </form>
+                    {% else %}
+                        <p>Ainda não há especialidades disponíveis</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{asset("theme/plugins/bootstrap-select/js/bootstrap-select.js")}}"></script>
+    <script src="{{asset("theme/plugins/sweetalert/sweetalert.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-inputmask/jquery.inputmask.bundle.js")}}"></script>
+    <script>
+        $(".provider-service-price").inputmask("decimal", {
+            "alias": "numeric",
+            "groupSeparator": ".",
+            "autoGroup": true,
+            "digits": 2,
+            "radixPoint": ",",
+            "digitsOptional": false,
+            "allowMinus": false,
+            "prefix": "R$ ",
+            "placeholder": "",
+            "rightAlign": false,
+            "showMaskOnHover": false
+        });
+
+        $("#service-create").submit(function(e){
+            e.preventDefault();
+
+            $.ajax({
+                method: "POST",
+                url: "/prestador-servico/service/create/",
+                data: $(this).serialize(),
+                success: function(){
+                    swal({
+                        title: "Sucesso",
+                        text: "Serviço criado com sucesso",
+                        type: "success"
+                    }, function(){
+                        window.location.href = "/prestador-servico/servicos/";
+                    });
+                },
+                error: function(data){
+                    swal("Erro", data.responseText, "error");
+                }
+            });
+        });
+    </script>
+{% endblock %}

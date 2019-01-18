@@ -1,0 +1,63 @@
+{% extends "base-provider.html.twig" %}
+
+{% block style %}
+    <link href="{{asset("theme/plugins/sweetalert/sweetalert.css")}}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <p>Métodos de pagamento</p>
+                </div>
+                <div class="body">
+                    {% if payment_method %}
+                        <form id="payment-methods">
+                            <div class="form-group form-float row">
+                                {% for p in payment_method %}
+                                    <div class="col-md-12">
+                                        <input type="checkbox" id="payment_method_{{p.id}}" name="payment_method[]" value="{{p.id}}" class="filled-in chk-col-pink" {% if p.checked %}checked{% endif %} />
+                                        <label for="payment_method_{{p.id}}">{{p.name}}</label>
+                                    </div>
+                                {% endfor %}
+
+                                <div class="col-md-12">
+                                    <button id="establishment-submit" class="btn bg-pink waves-effect">SALVAR</button>
+                                </div>
+                            </div>
+                        </form>
+                    {% else %}
+                        <p>Não há métodos de pagamento</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{asset("theme/plugins/jquery-inputmask/jquery.inputmask.bundle.js")}}"></script>
+    <script src="{{asset("theme/plugins/sweetalert/sweetalert.min.js")}}"></script>
+    <script>
+        $("#payment-methods").submit(function(e){
+            e.preventDefault();
+
+            $.ajax({
+                method: "POST",
+                url: "/prestador-servico/payment-methods/",
+                data: $(this).serialize(),
+                success: function(){
+                    swal({
+                        title: "Sucesso",
+                        text: "Métodos de pagamento salvos com sucesso",
+                        type: "success"
+                    });
+                },
+                error: function(data){
+                    swal("Erro", data.responseText, "error");
+                }
+            });
+        });
+    </script>
+{% endblock %}

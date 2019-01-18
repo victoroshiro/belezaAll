@@ -1,0 +1,91 @@
+page-schedule-manual {
+
+    h1{
+        font-size: 1.2em;
+    }
+
+    my-date-picker{
+        .mydp{
+            .selector{
+                border: none !important;
+
+                table{
+                    &.header{
+                        margin: 1em 0;
+                        background-color: transparent;
+                    }
+
+                    &.caltable{
+                        th{
+                            font-weight: bold;
+                            font-size: 0.9em;
+                            color: rgba(0, 0, 0, 0.87);
+                            background-color: transparent;
+                        }
+
+                        td{
+                            color: rgba(0, 0, 0, 0.87);
+
+                            &.currmonth{
+                                background-color: transparent;
+                            }
+
+                            .highlight{
+                                color: #FFFFFF;
+                                background-color: rgba(147, 62, 149, 0.8);
+
+                                &.prevmonth, &.nextmonth{
+                                    background-color: rgba(147, 62, 149, 0.4);
+                                }
+                            }
+
+                            .markcurrday{
+                                font-weight: bold;
+                                text-decoration: none;
+                            }
+
+                            &.daycell{
+                                padding: 0;
+
+                                .datevalue{
+                                    padding: 0.6em 0;
+                                    border-radius: 5px;
+                                }
+                            }
+                        }
+                    }
+
+                    &.monthtable{
+                        td{
+                            color: rgba(0, 0, 0, 0.87);
+
+                            &.monthcell{
+                                padding: 0;
+
+                                .monthvalue{
+                                    padding: 0.6em 0;
+                                    border-radius: 5px;
+                                }
+                            }
+                        }
+                    }
+
+                    &.yeartable{
+                        td{
+                            color: rgba(0, 0, 0, 0.87);
+
+                            &.yearcell{
+                                padding: 0;
+
+                                .yearvalue{
+                                    padding: 0.6em 0;
+                                    border-radius: 5px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

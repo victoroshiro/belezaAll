@@ -1,0 +1,28 @@
+{% extends "base-provider.html.twig" %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="info-box bg-purple hover-expand-effect">
+                <div class="icon">
+                    <i class="material-icons">attach_money</i>
+                </div>
+                <div class="content">
+                    <div class="text">TOTAL DE GANHOS</div>
+                    <div class="number">R$ {{amount | number_format(2, ",", ".")}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="info-box bg-pink hover-expand-effect">
+                <div class="icon">
+                    <i class="material-icons">attach_money</i>
+                </div>
+                <div class="content">
+                    <div class="text">TAXA PAGA AO FRANQUEADO</div>
+                    <div class="number">R$ {{franchiseeTax | number_format(2, ",", ".")}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

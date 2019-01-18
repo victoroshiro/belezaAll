@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Termos de uso | Beleza.com</title>
+
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css" />
+    
+        <link href="{{asset("theme/plugins/bootstrap/css/bootstrap.css")}}" rel="stylesheet" />
+        <link href="{{asset("theme/css/themes/theme-beleza.css")}}" rel="stylesheet" />
+        <link href="{{asset("theme/plugins/node-waves/waves.css")}}" rel="stylesheet" />
+        <link href="{{asset("theme/css/style.css")}}" rel="stylesheet" />
+        <link href="{{asset("style.css")}}" rel="stylesheet" />
+        <link href="{{asset("theme/plugins/sweetalert/sweetalert.css")}}" rel="stylesheet" />
+    </head>
+
+    <body class="theme-beleza">
+        <div class="privacy">
+            <main>
+                <figure class="text-center">
+                    <img src="{{asset("img/logo.png")}}" />
+                </figure>
+                
+                {{providerPrivacy.value | raw}}
+            </main>
+
+            <footer class="text-center">
+                <button id="accept-privacy" class="btn bg-pink waves-effect">{% if app.user.privacyAccepted %}CONTINUAR{% else %}ACEITAR E CONTINUAR{% endif %}</button>
+            </footer>
+        </div>
+    </body>
+
+    <script src="{{asset("theme/plugins/jquery/jquery.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/bootstrap/js/bootstrap.js")}}"></script>
+    <script src="{{asset("theme/plugins/node-waves/waves.js")}}"></script>
+    <script src="{{asset("theme/plugins/sweetalert/sweetalert.min.js")}}"></script>
+    <script>
+        $("#accept-privacy").click(function(){
+            {% if app.user.privacyAccepted %}
+                location.href = "/prestador-servico/";
+            {% else %}
+                $.ajax({
+                    method: "POST",
+                    url: "/prestador-servico/accept-privacy/",
+                    success: function(){
+                        location.href = "/prestador-servico/"
+                    },
+                    error: function(data){
+                        swal("Erro", data.responseText, "error");
+                    }
+                });
+            {% endif %}
+        });
+    </script>
+</html>

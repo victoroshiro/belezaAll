@@ -1,0 +1,7 @@
+{
+  "name": "beleza.com-provider",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

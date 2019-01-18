@@ -1,0 +1,98 @@
+{% extends "base-admin.html.twig" %}
+
+{% block style %}
+    <link href="{{asset("theme/plugins/bootstrap-select/css/bootstrap-select.css")}}" rel="stylesheet" />
+    <link href="{{asset("theme/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css")}}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="body">
+                    <form method="POST" class="form-group form-float row">
+                        <div class="col-md-4">
+                            <select name="franchisee" class="form-control show-tick" required>
+                                <option value="" selected>Escolha um franqueado</option>
+                                {% for f in franchisees %}
+                                    <option value="{{f.id}}" {% if f.id == franchisee %}selected{% endif %}>{{f.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-line">
+                                <input type="text" class="form-control" name="date_min" value="{{date_min}}" required>
+                                <label class="form-label">Período inicial</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-line">
+                                <input type="text" class="form-control" name="date_max" value="{{date_max}}" required>
+                                <label class="form-label">Período final</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 text-center">
+                            <button class="btn bg-pink waves-effect">BUSCAR</button> 
+                        </div>    
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <p>Agendamentos</p>
+                </div>
+                <div class="body table-responsive">
+                    <table class="table dataTable">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Email</th>
+                                <th>Profissional</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for s in scheduling %}
+                                <tr>
+                                    <td>{{s.user}}</td>
+                                    <td>{{s.email}}</td>
+                                    <td>{{s.provider}}</td>
+                                    <td>{{s.provider_email}}</td>
+                                    <td>{{s.status}}</td>
+                                    <td>{{s.datetime | date("d/m/Y H:i")}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{asset("theme/plugins/bootstrap-select/js/bootstrap-select.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/jquery.dataTables.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/buttons.flash.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/jszip.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/pdfmake.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/vfs_fonts.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/buttons.html5.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/buttons.print.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-inputmask/jquery.inputmask.bundle.js")}}"></script>
+    <script src="{{asset("script.js")}}"></script>
+    <script>
+        $("input[name='date_min'], input[name='date_max']").inputmask('dd/mm/yyyy', { placeholder: '__/__/____' });
+    </script>
+{% endblock %}

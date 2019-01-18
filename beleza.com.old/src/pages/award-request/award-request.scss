@@ -1,0 +1,33 @@
+page-award-request {
+    main{
+        ion-item{
+            border-bottom: none;
+            padding-left: 0px !important;
+
+            .item-inner{
+                border-bottom: none !important;
+            }
+
+            img{
+                height: 4em;
+            }
+        }
+
+        h2{
+            font-size: 1.1em;
+            font-weight: 400;
+            padding: 0.8em 0em;
+            color: map-get($colors, "salon");
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+            span{
+                color: rgba(0, 0, 0, 0.87);
+            }
+        }
+    }
+    .submit{
+        padding: 1.6em;
+        font-size: 1.2em;
+        margin-bottom: 1em;
+    }
+}

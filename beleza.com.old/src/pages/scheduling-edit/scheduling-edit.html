@@ -1,0 +1,166 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Editar agendamento</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-refresher (ionRefresh)="getEditSchedulingContent($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card *ngIf="!provider.id" text-center>
+    <ion-card-content>Profissional não encontrado</ion-card-content>
+  </ion-card>
+
+  <ng-container *ngIf="provider.id">
+    <header>
+      <img [src]="provider.photo ? web.url + '/upload/provider/' + provider.photo : 'assets/imgs/provider.png'" />
+      <h1>{{provider.name}}</h1>
+    </header>
+
+    <form #scheduling="ngForm" (ngSubmit)="editScheduling(scheduling)">
+      <main padding>
+        <h2>Descrição <ion-icon (click)="app.pushPage('ChatPage', {provider: provider.id})" name="chatbubbles" float-right></ion-icon></h2>
+        <p>{{provider.description}}</p>
+
+        <h2>Informações agendamento</h2>
+
+        <ion-grid class="datetime">
+          <ion-row>
+            <ion-card *ngIf="!provider.dates || !provider.dates.length" text-center>
+              <ion-card-content>Não há datas disponíveis</ion-card-content>
+            </ion-card>
+
+            <ng-container *ngIf="provider.dates && provider.dates.length">
+              <ion-col class="datetime-label">Data</ion-col>
+              <ion-col>
+                <ion-item>
+                  <ion-select name="date" [(ngModel)]="date" placeholder="Selecionar data" (ionChange)="getAvailableTime(date)" required>
+                    <ion-option *ngFor="let d of provider.dates" [value]="d.id">{{d.date}}</ion-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+            </ng-container>
+          </ion-row>
+          <ion-row>
+            <ion-card *ngIf="date && !times.length" text-center>
+              <ion-card-content>Não há outros horários disponíveis</ion-card-content>
+            </ion-card>
+
+            <ng-container *ngIf="date && times.length">
+              <small text-center>Não selecione um novo horário se você quiser continuar com o antigo</small>
+              <ion-col class="datetime-label">Horário</ion-col>
+              <ion-col>
+                <ion-item>
+                  <ion-select name="time" [(ngModel)]="time" placeholder="Selecionar Horário">
+                    <ion-option *ngFor="let t of times" [value]="t.id">{{t.time}}</ion-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+            </ng-container>
+          </ion-row>
+        </ion-grid>
+
+        <h2>Serviços</h2>
+
+        <ng-container *ngIf="!specialty">
+          <ion-item>
+            <ion-label>Categoria</ion-label>
+            <ion-select name="category" [(ngModel)]="category" placeholder="Selecionar categoria" (ionChange)="getSpecialties(category)">
+              <ion-option *ngFor="let c of categories" [value]="c.id">{{c.name}}</ion-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Especialidade</ion-label>
+            <ion-select name="chosen_specialty" [(ngModel)]="chosen_specialty" placeholder="Selecionar especialidade" (ionChange)="getServices(chosen_specialty)">
+              <ion-option *ngFor="let s of specialties" [value]="s.id">{{s.name}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </ng-container>
+
+        <ion-card *ngIf="specialty && !services.length" text-center>
+          <ion-card-content>Não há serviços disponíveis</ion-card-content>
+        </ion-card>
+
+        <ion-item *ngFor="let s of services">
+          <ion-label>{{s.name}}</ion-label>
+          <ion-checkbox color="salon" (ionChange)="chooseService($event, s.id, schedulingOld.payment)" [checked]="chosenServices.indexOf(s.id) != -1"></ion-checkbox>
+        </ion-item>
+
+        <h2>Endereço</h2>
+
+        <ion-list radio-group [(ngModel)]="home_care" name="home_care" required>
+          <ion-item>
+            <ion-label>Ir até o profissional</ion-label>
+            <ion-radio color="salon" value="0"></ion-radio>
+          </ion-item>
+
+          <ion-item *ngIf="home_care == 0">
+            <h3>{{provider.street}}</h3>
+            <p>{{provider.cep}} | {{provider.neighborhood}}, {{provider.number}}</p>
+            <p>{{provider.city}} - {{provider.state}}</p>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Atendimento a domicílio</ion-label>
+            <ion-radio color="salon" value="1"></ion-radio>
+          </ion-item>
+        </ion-list>
+
+        <ion-list *ngIf="home_care == 1" name="address" [(ngModel)]="schedulingOld.address" radio-group required>
+          <ion-item *ngFor="let a of addresses">
+            <ion-label>
+              <h3>{{a.street}}</h3>
+              <p>{{a.cep}} | {{a.neighborhood}}, {{a.number}}</p>
+              <p>{{a.city}} - {{a.state}}</p>
+            </ion-label>
+            <ion-radio color="salon" [value]="a.id"></ion-radio>
+          </ion-item>
+
+          <div text-center>
+            <button type="button" (click)="addAddress()" color="salon" small ion-button>Adicionar endereço</button>
+          </div>
+        </ion-list>
+
+        <h2>Pagamento</h2>
+
+        <div class="payment">
+          <ion-item>
+            <ion-label>
+              <ng-container *ngIf="!schedulingOld.payment">
+                Selecionar
+              </ng-container>
+              <ng-container *ngIf="schedulingOld.payment">
+                <img [src]="web.url + '/upload/payment-method/' + paymentPhoto" /> {{paymentName}}
+              </ng-container>
+            </ion-label>
+            <ion-select [(ngModel)]="schedulingOld.payment" name="payment" (ionChange)="changePayment(schedulingOld.payment)" required>
+              <ion-option *ngFor="let p of provider.payments" [value]="p.id">{{p.name}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </div>
+        
+        <div *ngIf="schedulingOld.payment && chosenServices.length" class="services">
+          <h2>Serviços</h2>
+          
+          <ion-item *ngFor="let s of servicesDetails">
+            <h3>{{s.name}}</h3>
+            <p>R$ {{s.price}}</p>
+            <p>{{s.description}}</p>
+          </ion-item>
+        </div>
+      </main>
+
+      <button class="submit" [disabled]="!scheduling.valid || !chosenServices.length" color="salon" ion-button full>Editar agendamento</button>
+    </form>
+  </ng-container>
+</ion-content>

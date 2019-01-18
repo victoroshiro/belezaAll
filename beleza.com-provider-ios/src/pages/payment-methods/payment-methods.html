@@ -1,0 +1,29 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Métodos de pagamento</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-card *ngIf="!paymentMethods.length" text-center>
+    <ion-card-content>Não há métodos de pagamento disponíveis</ion-card-content>
+  </ion-card>
+
+  <form (ngSubmit)="savePaymentMethods()">
+    <div padding>
+      <ion-item *ngFor="let p of paymentMethods">
+        <ion-label>{{p.name}}</ion-label>
+        <ion-checkbox (ionChange)="choosePaymentMethod($event, p.id)" color="saloon" [checked]="p.checked == 1"></ion-checkbox>
+      </ion-item>
+    </div>
+
+    <button [disabled]="!paymentMethods.length" color="rose" ion-button full large>Salvar</button>
+  </form>
+</ion-content>

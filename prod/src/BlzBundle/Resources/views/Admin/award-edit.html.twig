@@ -1,0 +1,126 @@
+{% extends "base-admin.html.twig" %}
+
+{% block style %}
+    <link href="{{asset("theme/plugins/sweetalert/sweetalert.css")}}" rel="stylesheet" />
+    <link href="{{asset("theme/plugins/light-gallery/css/lightgallery.css")}}" rel="stylesheet" />
+    <link href="{{asset("theme/plugins/croppie/croppie.css")}}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <p>Editar premiação</p>
+                </div>
+                <div class="body">            
+                    {% if award %}
+                        <p>Adicione uma imagem</p>
+                        <div id="img-gallery" class="row clearfix" data-limit="1">
+                            {% if award.photo %}
+                                <div class="gallery-fake-item col-xs-3 col-lg-3 col-md-3 col-sm-6">
+                                    <a href="/upload/award/{{award.photo}}">
+                                        <img class="img-responsive thumbnail" src="/upload/award/{{award.photo}}" />
+                                        <i onclick="removeFromGallery(event)" class="material-icons">close</i>
+                                    </a>
+                                </div>
+                            {% endif %}
+
+                            <div class="col-xs-3 col-lg-3 col-md-3 col-sm-6 add-image align-center" data-toggle="modal" data-target="#img-modal">
+                                <span data-toggle="tooltip" data-placement="top" title="Adicionar imagem">
+                                    <i class="material-icons">add</i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <form id="award-edit">
+                            <input type="hidden" name="id" value="{{award.id}}" />
+
+                            <div class="form-group form-float row">
+                                <div class="col-md-12">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="name" value="{{award.name}}" maxlength="128" required>
+                                        <label class="form-label">Nome</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-line">
+                                        <textarea class="form-control no-resize" name="description" rows="4" required>{{award.description}}</textarea>
+                                        <label class="form-label">Descrição</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-line">
+                                        <input type="number" class="form-control" name="points" value="{{award.points}}" required>
+                                        <label class="form-label">Pontuação necessária</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <button id="establishment-submit" class="btn bg-pink waves-effect">EDITAR</button>
+                                </div>
+                            </div>
+                        </form>
+                    {% else %}
+                        <p>Premiação não encontrada</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="img-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Adicionar imagem</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="file" data-width="200" data-height="200" />
+
+                    <br />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="save-img btn btn-link waves-effect" disabled>SALVAR</button>
+                    <button type="button" class="close-img btn btn-link waves-effect">FECHAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{asset("theme/plugins/sweetalert/sweetalert.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/light-gallery/js/lightgallery-all.js")}}"></script>
+    <script src="{{asset("theme/plugins/croppie/croppie.min.js")}}"></script>
+    <script src="{{asset("script.js")}}"></script>
+    <script>
+        $("#award-edit").submit(function(e){
+            e.preventDefault();
+
+            if($("#img-gallery .gallery-item, #img-gallery .gallery-fake-item").length < 1){
+                swal("Erro", "É necessário uma imagem para a premiação.", "error");
+
+                return false;
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "/admin/award/edit/",
+                data: $(this).serialize() + "&photo=" + getGallery(),
+                success: function(){
+                    swal({
+                        title: "Sucesso",
+                        text: "Premiação editada com sucesso",
+                        type: "success"
+                    });
+                },
+                error: function(data){
+                    swal("Erro", data.responseText, "error");
+                }
+            });
+        });
+    </script>
+{% endblock %}

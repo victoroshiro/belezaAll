@@ -1,0 +1,251 @@
+{% set url = app.request.attributes.get('_route') %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <title>Beleza.com | Admin</title>
+
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css" />
+        <link href="{{asset("theme/plugins/bootstrap/css/bootstrap.css")}}" rel="stylesheet" />
+        <link href="{{asset("theme/css/themes/theme-beleza.css")}}" rel="stylesheet" />
+        <link href="{{asset("theme/plugins/node-waves/waves.css")}}" rel="stylesheet" />
+        <link href="{{asset("style.css")}}" rel="stylesheet">
+
+        {% block style %}
+        {% endblock %}
+
+        <link href="{{asset("theme/css/style.css")}}" rel="stylesheet">
+    </head>
+
+    <body class="theme-beleza">
+        <div class="page-loader-wrapper">
+            <div class="loader">
+                <div class="preloader">
+                    <div class="spinner-layer pl-pink">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <p>Carregando...</p>
+            </div>
+        </div>
+        <div class="overlay"></div>
+
+        <nav class="navbar">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="bars"></a>
+                    <a href="/admin" class="navbar-brand"><img src="{{asset("img/icon.png")}}" /> Admin</a>
+                </div>
+
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="/admin/logout" title="Sair"><i class="material-icons">power_settings_new</i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <section>
+            <aside id="leftsidebar" class="sidebar">
+                <div class="menu">
+                    <ul class="list">
+                        <li class="header">MENU</li>
+                        <li class="{% if url == 'IndexAdmin' %}active{% endif %}">
+                            <a href="{{path('IndexAdmin')}}">
+                                <i class="material-icons">dashboard</i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="{% if url == "CreateAdmin" or url == "ListAdmin" %}active{% endif %}">
+                            <a class="menu-toggle">
+                                <i class="material-icons">person</i>
+                                <span>Administradores</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li class="{% if url == "CreateAdmin" %}active{% endif %}">
+                                    <a href="{{path("CreateAdmin")}}">Criar</a>
+                                </li>
+                                <li class="{% if url == "ListAdmin" %}active{% endif %}">
+                                    <a href="{{path("ListAdmin")}}">Visualizar</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="{% if url == "CreateFranchisee" or url == "ListFranchisee" %}active{% endif %}">
+                            <a class="menu-toggle">
+                                <i class="material-icons">person</i>
+                                <span>Franqueados</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li class="{% if url == "CreateFranchisee" %}active{% endif %}">
+                                    <a href="{{path("CreateFranchisee")}}">Criar</a>
+                                </li>
+                                <li class="{% if url == "ListFranchisee" %}active{% endif %}">
+                                    <a href="{{path("ListFranchisee")}}">Visualizar</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="{% if url == "CreateProvider" or url == "ListProvider" %}active{% endif %}">
+                            <a class="menu-toggle">
+                                <i class="material-icons">person</i>
+                                <span>Prestadores de serviço</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li class="{% if url == "CreateProvider" %}active{% endif %}">
+                                    <a href="{{path("CreateProvider")}}">Criar</a>
+                                </li>
+                                <li class="{% if url == "ListProvider" %}active{% endif %}">
+                                    <a href="{{path("ListProvider")}}">Visualizar</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="{% if url == 'ListClient' %}active{% endif %}">
+                            <a href="{{path('ListClient')}}">
+                                <i class="material-icons">person</i>
+                                <span>Clientes</span>
+                            </a>
+                        </li>
+                        <li class="{% if url == 'FinancesAdmin' %}active{% endif %}">
+                            <a href="{{path('FinancesAdmin')}}">
+                                <i class="material-icons">attach_money</i>
+                                <span>Financeiro</span>
+                            </a>
+                        </li>
+                        <li class="{% if url == "CreateCategory" or url == "CreateSpecialty" or url == "ListCategory" %}active{% endif %}">
+                            <a class="menu-toggle">
+                                <i class="material-icons">list</i>
+                                <span>Categorias</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li class="{% if url == "CreateCategory" %}active{% endif %}">
+                                    <a href="{{path("CreateCategory")}}">Criar categoria</a>
+                                </li>
+                                <li class="{% if url == "CreateSpecialty" %}active{% endif %}">
+                                    <a href="{{path("CreateSpecialty")}}">Criar especialidade</a>
+                                </li>
+                                <li class="{% if url == "ListCategory" %}active{% endif %}">
+                                    <a href="{{path("ListCategory")}}">Visualizar</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="{% if url == "CreateAd" or url == "ListAd" %}active{% endif %}">
+                            <a class="menu-toggle">
+                                <i class="material-icons">stars</i>
+                                <span>Anúncios</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li class="{% if url == "CreateAd" %}active{% endif %}">
+                                    <a href="{{path("CreateAd")}}">Criar</a>
+                                </li>
+                                <li class="{% if url == "ListAd" %}active{% endif %}">
+                                    <a href="{{path("ListAd")}}">Visualizar</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="{% if url == "CreatePlan" or url == "ListPlan" %}active{% endif %}">
+                            <a class="menu-toggle">
+                                <i class="material-icons">work</i>
+                                <span>Planos</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li class="{% if url == "CreatePlan" %}active{% endif %}">
+                                    <a href="{{path("CreatePlan")}}">Criar</a>
+                                </li>
+                                <li class="{% if url == "ListPlan" %}active{% endif %}">
+                                    <a href="{{path("ListPlan")}}">Visualizar</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="{% if url == "CreatePaymentMethod" or url == "ListPaymentMethod" %}active{% endif %}">
+                            <a class="menu-toggle">
+                                <i class="material-icons">credit_card</i>
+                                <span>Métodos de pagamento</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li class="{% if url == "CreatePaymentMethod" %}active{% endif %}">
+                                    <a href="{{path("CreatePaymentMethod")}}">Criar</a>
+                                </li>
+                                <li class="{% if url == "ListPaymentMethod" %}active{% endif %}">
+                                    <a href="{{path("ListPaymentMethod")}}">Visualizar</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="{% if url == "CreateAward" or url == "ListAward" or url == "AwardRequest" %}active{% endif %}">
+                            <a class="menu-toggle">
+                                <i class="material-icons">favorite</i>
+                                <span>Premiações</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li class="{% if url == "CreateAward" %}active{% endif %}">
+                                    <a href="{{path("CreateAward")}}">Criar</a>
+                                </li>
+                                <li class="{% if url == "ListAward" %}active{% endif %}">
+                                    <a href="{{path("ListAward")}}">Visualizar</a>
+                                </li>
+                                <li class="{% if url == "AwardRequest" %}active{% endif %}">
+                                    <a href="{{path("AwardRequest")}}">Solicitações</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="{% if url == "StatsScheduling" or url == "StatsFinance" or url == "StatsAvgPrice" or url == "StatsTopScheduling" %}active{% endif %}">
+                            <a class="menu-toggle">
+                                <i class="material-icons">insert_chart</i>
+                                <span>Estatísticas</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li class="{% if url == "StatsScheduling" %}active{% endif %}">
+                                    <a href="{{path("StatsScheduling")}}">Agendamentos</a>
+                                </li>
+                                <li class="{% if url == "StatsFinance" %}active{% endif %}">
+                                    <a href="{{path("StatsFinance")}}">Movimentações serviços</a>
+                                </li>
+                                <li class="{% if url == "StatsAvgPrice" %}active{% endif %}">
+                                    <a href="{{path("StatsAvgPrice")}}">Médias de preço</a>
+                                </li>
+                                <li class="{% if url == "StatsTopScheduling" %}active{% endif %}">
+                                    <a href="{{path("StatsTopScheduling")}}">Mais agendados</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="{% if url == 'Configuration' %}active{% endif %}">
+                            <a href="{{path('Configuration')}}">
+                                <i class="material-icons">settings</i>
+                                <span>Configurações</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="block-header">
+                    <h2>{% block title %}{% endblock %}</h2>
+                </div>
+            </div>
+
+            {% block body %}
+            {% endblock %}
+        </section>
+
+    </body>
+
+    <script src="{{asset("theme/plugins/jquery/jquery.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/bootstrap/js/bootstrap.js")}}"></script>
+    <script src="{{asset("theme/plugins/node-waves/waves.js")}}"></script>
+    <script src="{{asset("theme/js/admin.js")}}"></script>
+
+    {% block script %}
+    {% endblock %}
+</html>

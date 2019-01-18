@@ -1,0 +1,48 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Serviços</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-refresher (ionRefresh)="refreshServices($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card *ngIf="!services.length" text-center>
+    <ion-card-content>Não há serviços</ion-card-content>
+  </ion-card>
+
+  <ion-list *ngIf="services.length" padding>
+    <ion-item-sliding *ngFor="let s of services; let i = index">
+      <ion-item (click)="editService(s.id)">
+        <h2>{{s.name}}</h2>
+        <p>{{s.category}} - {{s.specialty}}</p>
+      </ion-item>
+      <ion-item-options side="right">
+        <button (click)="toggleService(s.id, i)" ion-button color="primary">
+          {{s.active == 1 ? 'Desativar' : 'Ativar'}}
+        </button>
+      </ion-item-options>
+      <ion-item-options side="left">
+        <button (click)="deleteService(s.id, i)" ion-button color="danger">
+          <ion-icon name="trash"></ion-icon>
+          Excluir
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-fab bottom right>
+    <button (click)="addService()" color="saloon" ion-fab>
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

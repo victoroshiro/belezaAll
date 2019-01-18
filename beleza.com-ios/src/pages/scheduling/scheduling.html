@@ -1,0 +1,92 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Detalhes</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-refresher (ionRefresh)="refreshScheduling($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card *ngIf="!scheduling.id" text-center>
+    <ion-card-content>Agendamento não encontrado</ion-card-content>
+  </ion-card>
+  
+  <ng-container *ngIf="scheduling.id">
+    <header>
+      <img [src]="scheduling.photo ? web.url + '/upload/provider/' + scheduling.photo : 'assets/imgs/provider.png'" />
+      <h1>{{scheduling.provider}}</h1>
+    </header>
+
+    <main padding>
+      <h2>Descrição <ion-icon (click)="app.pushPage('ChatPage', {provider: scheduling.provider_id})" name="chatbubbles" float-right></ion-icon></h2>
+      <p>{{scheduling.description}}</p>
+
+      <ng-container *ngIf="scheduling.status_id == 1 || (scheduling.status_id == 3 && !scheduling.rating)">
+        <h2>Ações</h2>
+
+        <div text-center>
+          <button *ngIf="scheduling.status_id == 1" (click)="cancelScheduling(scheduling.id)" color="danger" icon-left ion-button>
+            <ion-icon name="thumbs-down"></ion-icon>
+            Cancelar
+          </button>
+
+          <button *ngIf="scheduling.status_id == 1" (click)="app.pushPage('SchedulingEditPage', {id: scheduling.provider_id, scheduling: scheduling.id})" color="primary" icon-left ion-button>
+            <ion-icon name="create"></ion-icon>
+            Editar
+          </button>
+
+          <button *ngIf="scheduling.status_id == 3 && !scheduling.rating" (click)="app.pushPage('RatingPage', {id: scheduling.id})" color="secondary" icon-left ion-button>
+            <ion-icon name="star"></ion-icon>
+            Avaliar
+          </button>
+        </div>
+      </ng-container>
+
+      <h2>Informações agendamento</h2>
+
+      <p *ngIf="scheduling.rating"><b>Nota: {{scheduling.rating}}</b></p>
+      <p>Status: {{scheduling.status}}</p>
+      <p>Solicitação: {{scheduling.datetime}}</p>
+      <p>Data: {{scheduling.date}}</p>
+      <p>Horário: {{scheduling.time}}</p>
+
+      <hr />
+
+      <p>A domicilio: {{scheduling.home_care == 1 ? 'Sim' : 'Não'}}</p>
+
+      <ng-container *ngIf="scheduling.home_care == 1">
+        <p>{{scheduling.street}}</p>
+        <p>{{scheduling.cep}} | {{scheduling.neighborhood}}, {{scheduling.number}}</p>
+        <p>{{scheduling.city}} - {{scheduling.state}}</p>
+      </ng-container>
+
+      <ng-container *ngIf="scheduling.home_care != 1">
+        <p>{{scheduling.street_provider}}</p>
+        <p>{{scheduling.cep_provider}} | {{scheduling.neighborhood_provider}}, {{scheduling.number_provider}}</p>
+        <p>{{scheduling.city_provider}} - {{scheduling.state_provider}}</p>
+      </ng-container>
+
+      <hr />
+
+      <p>Método de pagamento: {{scheduling.payment_method}}</p>
+      <p><b>Total: R$ {{scheduling.amount}}</b></p>
+
+      <h2>Serviços</h2>
+
+      <ion-item *ngFor="let s of scheduling.services">
+        <h3>{{s.name}}</h3>
+        <p>R$ {{s.price}}</p>
+        <p>{{s.description}}</p>
+      </ion-item>
+    </main>
+  </ng-container>
+</ion-content>

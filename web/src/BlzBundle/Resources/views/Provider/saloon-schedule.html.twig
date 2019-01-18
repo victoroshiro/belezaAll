@@ -1,0 +1,466 @@
+{% extends "base-provider.html.twig" %}
+
+{% block style %}
+    <link href="{{asset("theme/plugins/sweetalert/sweetalert.css")}}" rel="stylesheet" />
+    <link href="{{asset("theme/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css")}}" rel="stylesheet" />
+    <link href="{{asset("theme/plugins/bootstrap-select/css/bootstrap-select.css")}}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    {% if provider %}
+        <div class="row clearfix">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <p>Agenda de {{provider.name}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <p>Agenda automática</p>
+                    </div>
+                    <div class="body">
+                        <form id="organize-schedule-auto" class="form-group form-float row">
+                            <div class="col-md-2">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="date_min" required>
+                                    <label class="form-label">Período inicial</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="date_max" required>
+                                    <label class="form-label">Período final</label>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2">
+                                <select name="day_min" class="form-control show-tick" required>
+                                    <option>Dia min</option>
+                                    <option value="1">Segunda-feira</option>
+                                    <option value="2">Terça-feira</option>
+                                    <option value="3">Quarta-feira</option>
+                                    <option value="4">Quinta-feira</option>
+                                    <option value="5">Sexta-feira</option>
+                                    <option value="6">Sábado</option>
+                                    <option value="7">Domingo</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-2">
+                                <select name="day_max" class="form-control show-tick" required>
+                                    <option>Dia max</option>
+                                    <option value="1">Segunda-feira</option>
+                                    <option value="2">Terça-feira</option>
+                                    <option value="3">Quarta-feira</option>
+                                    <option value="4">Quinta-feira</option>
+                                    <option value="5">Sexta-feira</option>
+                                    <option value="6">Sábado</option>
+                                    <option value="7">Domingo</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-2">
+                                <select name="time_min" class="form-control show-tick" required>
+                                    <option>Hora min</option>
+                                    {% set i = 0 %}
+                                    {% for t in times %}
+                                        <option value="{{i}}">{{t}}</option>
+                                        {% set i = i + 1 %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-2">
+                                <select name="time_max" class="form-control show-tick" required>
+                                    <option>Hora max</option>
+                                    {% set i = 0 %}
+                                    {% for t in times %}
+                                        <option value="{{i}}">{{t}}</option>
+                                        {% set i = i + 1 %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-12 text-center">
+                                <button class="btn bg-pink waves-effect">AGENDAR</button> 
+                            </div>    
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <p>Agenda manual</p>
+                    </div>
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div id="calendar">
+                                </div>
+                            </div>
+                            <div class="col-md-8 available-time">
+                                <div id="available-time-loader">
+                                    <div class="preloader">
+                                        <div class="spinner-layer pl-pink">
+                                            <div class="circle-clipper left">
+                                                <div class="circle"></div>
+                                            </div>
+                                            <div class="circle-clipper right">
+                                                <div class="circle"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="available-time">
+                                    <h4>Horários disponíveis em <span id="selected-date"></span></h4>
+
+                                    <form id="organize-schedule">
+                                        <input type="hidden" name="date" />
+
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_0" name="time[]" value="0" class="filled-in chk-col-pink" />
+                                                    <label for="time_0">00:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_1" name="time[]" value="1" class="filled-in chk-col-pink" />
+                                                    <label for="time_1">00:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_2" name="time[]" value="2" class="filled-in chk-col-pink" />
+                                                    <label for="time_2">01:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_3" name="time[]" value="3" class="filled-in chk-col-pink" />
+                                                    <label for="time_3">01:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_4" name="time[]" value="4" class="filled-in chk-col-pink" />
+                                                    <label for="time_4">02:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_5" name="time[]" value="5" class="filled-in chk-col-pink" />
+                                                    <label for="time_5">02:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_6" name="time[]" value="6" class="filled-in chk-col-pink" />
+                                                    <label for="time_6">03:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_7" name="time[]" value="7" class="filled-in chk-col-pink" />
+                                                    <label for="time_7">03:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_8" name="time[]" value="8" class="filled-in chk-col-pink" />
+                                                    <label for="time_8">04:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_9" name="time[]" value="9" class="filled-in chk-col-pink" />
+                                                    <label for="time_9">04:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_10" name="time[]" value="10" class="filled-in chk-col-pink" />
+                                                    <label for="time_10">05:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_11" name="time[]" value="11" class="filled-in chk-col-pink" />
+                                                    <label for="time_11">05:30</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_12" name="time[]" value="12" class="filled-in chk-col-pink" />
+                                                    <label for="time_12">06:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_13" name="time[]" value="13" class="filled-in chk-col-pink" />
+                                                    <label for="time_13">06:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_14" name="time[]" value="14" class="filled-in chk-col-pink" />
+                                                    <label for="time_14">07:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_15" name="time[]" value="15" class="filled-in chk-col-pink" />
+                                                    <label for="time_15">07:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_16" name="time[]" value="16" class="filled-in chk-col-pink" />
+                                                    <label for="time_16">08:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_17" name="time[]" value="17" class="filled-in chk-col-pink" />
+                                                    <label for="time_17">08:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_18" name="time[]" value="18" class="filled-in chk-col-pink" />
+                                                    <label for="time_18">09:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_19" name="time[]" value="19" class="filled-in chk-col-pink" />
+                                                    <label for="time_19">09:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_20" name="time[]" value="20" class="filled-in chk-col-pink" />
+                                                    <label for="time_20">10:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_21" name="time[]" value="21" class="filled-in chk-col-pink" />
+                                                    <label for="time_21">10:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_22" name="time[]" value="22" class="filled-in chk-col-pink" />
+                                                    <label for="time_22">11:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_23" name="time[]" value="23" class="filled-in chk-col-pink" />
+                                                    <label for="time_23">11:30</label>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-3">
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_24" name="time[]" value="24" class="filled-in chk-col-pink" />
+                                                    <label for="time_24">12:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_25" name="time[]" value="25" class="filled-in chk-col-pink" />
+                                                    <label for="time_25">12:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_26" name="time[]" value="26" class="filled-in chk-col-pink" />
+                                                    <label for="time_26">13:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_27" name="time[]" value="27" class="filled-in chk-col-pink" />
+                                                    <label for="time_27">13:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_28" name="time[]" value="28" class="filled-in chk-col-pink" />
+                                                    <label for="time_28">14:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_29" name="time[]" value="29" class="filled-in chk-col-pink" />
+                                                    <label for="time_29">14:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_30" name="time[]" value="30" class="filled-in chk-col-pink" />
+                                                    <label for="time_30">15:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_31" name="time[]" value="31" class="filled-in chk-col-pink" />
+                                                    <label for="time_31">15:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_32" name="time[]" value="32" class="filled-in chk-col-pink" />
+                                                    <label for="time_32">16:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_33" name="time[]" value="33" class="filled-in chk-col-pink" />
+                                                    <label for="time_33">16:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_34" name="time[]" value="34" class="filled-in chk-col-pink" />
+                                                    <label for="time_34">17:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_35" name="time[]" value="35" class="filled-in chk-col-pink" />
+                                                    <label for="time_35">17:30</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_36" name="time[]" value="36" class="filled-in chk-col-pink" />
+                                                    <label for="time_36">18:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_37" name="time[]" value="37" class="filled-in chk-col-pink" />
+                                                    <label for="time_37">18:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_38" name="time[]" value="38" class="filled-in chk-col-pink" />
+                                                    <label for="time_38">19:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_39" name="time[]" value="39" class="filled-in chk-col-pink" />
+                                                    <label for="time_39">19:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_40" name="time[]" value="40" class="filled-in chk-col-pink" />
+                                                    <label for="time_40">20:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_41" name="time[]" value="41" class="filled-in chk-col-pink" />
+                                                    <label for="time_41">20:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_42" name="time[]" value="42" class="filled-in chk-col-pink" />
+                                                    <label for="time_42">21:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_43" name="time[]" value="43" class="filled-in chk-col-pink" />
+                                                    <label for="time_43">21:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_44" name="time[]" value="44" class="filled-in chk-col-pink" />
+                                                    <label for="time_44">22:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_45" name="time[]" value="45" class="filled-in chk-col-pink" />
+                                                    <label for="time_45">22:30</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_46" name="time[]" value="46" class="filled-in chk-col-pink" />
+                                                    <label for="time_46">23:00</label>
+                                                </div>
+                                                <div class="time_checkbox">
+                                                    <input type="checkbox" id="time_47" name="time[]" value="47" class="filled-in chk-col-pink" />
+                                                    <label for="time_47">23:30</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button class="btn bg-pink waves-effect">SALVAR DIA</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>Profissional não encontrado</p>
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+    {% if provider %}
+        <script src="{{asset("theme/plugins/sweetalert/sweetalert.min.js")}}"></script>
+        <script src="{{asset("theme/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js")}}"></script>
+        <script src="{{asset("theme/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.pt-BR.min.js")}}"></script>
+        <script src="{{asset("theme/plugins/momentjs/moment.min.js")}}"></script>
+        <script src="{{asset("theme/plugins/bootstrap-select/js/bootstrap-select.js")}}"></script>
+        <script src="{{asset("theme/plugins/jquery-inputmask/jquery.inputmask.bundle.js")}}"></script>
+        <script>
+            $("input[name='date_min'], input[name='date_max']").inputmask('dd/mm/yyyy', { placeholder: '__/__/____' });
+
+            var dates = {{dates | json_encode | raw}};
+
+            $("#calendar").datepicker({
+                format: "yyyy/mm/dd",
+                language: "pt-BR",
+                startDate: "+0d",
+                todayHighlight: true,
+                beforeShowDay: function(date){
+                    if(dates.indexOf(moment(date).format("YYYY-MM-DD")) != -1){
+                        return {classes: "highlight-scheduled", tooltip: "Dia reservado"};
+                    }
+                }
+            })
+            .on("changeDate", function(e){
+                $("#selected-date").html(moment(e.date).format("DD/MM/YYYY"));
+                $("input[name='date']").val(moment(e.date).format("YYYY-MM-DD"));
+
+                getTimes(moment(e.date).format("YYYY-MM-DD"));
+            });
+
+            $("#calendar").datepicker("setDate", new Date());
+
+            $("#organize-schedule").submit(function(e){
+                e.preventDefault();
+
+                $.ajax({
+                    method: "POST",
+                    url: "/prestador-servico/saloon/schedule/",
+                    data: $(this).serialize() + "&user=" + {{provider.id}},
+                    success: function(){
+                        if($("input[name='time[]']:checked").length){
+                            if(dates.indexOf($("input[name='date']").val()) == -1){
+                                dates.push($("input[name='date']").val());
+                            }
+                        }
+                        else{
+                            let date = dates.indexOf($("input[name='date']").val());
+
+                            if(date != -1){
+                                dates.splice(date, 1);
+                            }
+                        }
+
+                        $("#calendar").datepicker("update");
+
+                        swal({
+                            title: "Sucesso",
+                            text: "Agenda atualizada com sucesso",
+                            type: "success"
+                        });
+                    },
+                    error: function(data){
+                        swal("Erro", data.responseText, "error");
+                    }
+                });
+            });
+
+            $("#organize-schedule-auto").submit(function(e){
+                e.preventDefault();
+
+                swal("Salvando...", "Organizando agenda", "info");
+
+                $.ajax({
+                    method: "POST",
+                    url: "/prestador-servico/saloon/schedule/auto/",
+                    data: $(this).serialize() + "&user=" + {{provider.id}},
+                    success: function(){
+                        swal({
+                            title: "Sucesso",
+                            text: "Agenda atualizada com sucesso",
+                            type: "success"
+                        }, function(){
+                            location.href = "";
+                        });
+                    },
+                    error: function(data){
+                        swal("Erro", data.responseText, "error");
+                    }
+                });
+            });
+
+            function getTimes(date){
+                $("#available-time").fadeOut();
+                $("#available-time-loader").fadeIn();
+
+                $.ajax({
+                    method: "POST",
+                    url: "/prestador-servico/saloon/schedule/date/",
+                    data: "date=" + date + "&user=" + {{provider.id}},
+                    dataType: "json",
+                    success: function(data){
+                        $("input[name='time[]']").prop("checked", false);
+
+                        for(let i = 0; i < data.length; i = i + 1){
+                            $("input[value='" + data[i] + "']").prop("checked", true);
+                        }
+
+                        $("#available-time-loader").fadeOut();
+                        $("#available-time").fadeIn();
+                    },
+                    error: function(data){
+                        swal("Erro", data.responseText, "error");
+                    }
+                });
+            }
+        </script>
+    {% endif  %}
+{% endblock %}

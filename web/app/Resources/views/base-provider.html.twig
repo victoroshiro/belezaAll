@@ -1,0 +1,202 @@
+{% set url = app.request.attributes.get('_route') %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <title>Beleza.com | Prestador de serviço</title>
+
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css" />
+        <link href="{{asset("theme/plugins/bootstrap/css/bootstrap.css")}}" rel="stylesheet" />
+        <link href="{{asset("theme/css/themes/theme-beleza.css")}}" rel="stylesheet" />
+        <link href="{{asset("theme/plugins/node-waves/waves.css")}}" rel="stylesheet" />
+        <link href="{{asset("style.css")}}" rel="stylesheet">
+
+        {% block style %}
+        {% endblock %}
+
+        <link href="{{asset("theme/css/style.css")}}" rel="stylesheet">
+
+        <link rel="manifest" href="{{asset("manifest.json")}}" />
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+        <script src="{{asset("OneSignal.js")}}"></script>
+        <script>
+            var OneSignal = window.OneSignal || [];
+            OneSignal.push(function() {
+                OneSignal.init({
+                    appId: "77439b23-d81d-4373-88b4-1ad160be23d9",
+                });
+
+                OneSignal.getUserId(function(userId) {
+                    setPushOneSignal(userId);
+                });
+            });
+        </script>
+    </head>
+
+    <body class="theme-beleza">
+        <div class="page-loader-wrapper">
+            <div class="loader">
+                <div class="preloader">
+                    <div class="spinner-layer pl-pink">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <p>Carregando...</p>
+            </div>
+        </div>
+        <div class="overlay"></div>
+
+        <nav class="navbar">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="bars"></a>
+                    <a href="/prestador-servico" class="navbar-brand"><img src="{{asset("img/icon.png")}}" /> Prestador de serviço - {{app.user.name}}</a>
+                </div>
+
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="/prestador-servico/logout" title="Sair"><i class="material-icons">power_settings_new</i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <section>
+            <aside id="leftsidebar" class="sidebar">
+                <div class="menu">
+                    <ul class="list">
+                        <li class="header">MENU</li>
+                        <li class="{% if url == 'IndexProvider' %}active{% endif %}">
+                            <a href="{{path('IndexProvider')}}">
+                                <i class="material-icons">dashboard</i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="{% if url == "CreateService" or url == "ListService" %}active{% endif %}">
+                            <a class="menu-toggle">
+                                <i class="material-icons">work</i>
+                                <span>Serviços</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li class="{% if url == "CreateService" %}active{% endif %}">
+                                    <a href="{{path("CreateService")}}">Criar</a>
+                                </li>
+                                <li class="{% if url == "ListService" %}active{% endif %}">
+                                    <a href="{{path("ListService")}}">Visualizar</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="{% if url == "SchedulingProvider" or url == "OrganizeSchedule" %}active{% endif %}">
+                            <a class="menu-toggle">
+                                <i class="material-icons">today</i>
+                                <span>Agenda</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li class="{% if url == "SchedulingProvider" %}active{% endif %}">
+                                    <a href="{{path("SchedulingProvider")}}">Serviços agendados</a>
+                                </li>
+                                <li class="{% if url == "OrganizeSchedule" %}active{% endif %}">
+                                    <a href="{{path("OrganizeSchedule")}}">Organizar agenda</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="{% if url == 'ListProviderSaloon' %}active{% endif %}">
+                            <a href="{{path('ListProviderSaloon')}}">
+                                <i class="material-icons">person</i>
+                                <span>Profissionais do salão</span>
+                            </a>
+                        </li>
+                        <li class="{% if url == 'Finances' %}active{% endif %}">
+                            <a href="{{path('Finances')}}">
+                                <i class="material-icons">attach_money</i>
+                                <span>Financeiro</span>
+                            </a>
+                        </li>
+                        <li class="{% if url == "CreateAdProvider" or url == "ListAdProvider" %}active{% endif %}">
+                            <a class="menu-toggle">
+                                <i class="material-icons">stars</i>
+                                <span>Anúncios</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li class="{% if url == "CreateAdProvider" %}active{% endif %}">
+                                    <a href="{{path("CreateAdProvider")}}">Criar</a>
+                                </li>
+                                <li class="{% if url == "ListAdProvider" %}active{% endif %}">
+                                    <a href="{{path("ListAdProvider")}}">Visualizar</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="{% if url == 'Chats' %}active{% endif %}">
+                            <a href="{{path('Chats')}}">
+                                <i class="material-icons">chat_bubble</i>
+                                <span>Chat</span>
+                            </a>
+                        </li>
+                        <li class="{% if url == 'Profile' %}active{% endif %}">
+                            <a href="{{path('Profile')}}">
+                                <i class="material-icons">person</i>
+                                <span>Perfil</span>
+                            </a>
+                        </li>
+                        <li class="{% if url == "PaymentMethods" %}active{% endif %}">
+                            <a class="menu-toggle">
+                                <i class="material-icons">settings</i>
+                                <span>Configurações</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li class="{% if url == "PaymentMethods" %}active{% endif %}">
+                                    <a href="{{path("PaymentMethods")}}">Métodos de pagamento</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="{% if url == 'PrivacyProvider' %}active{% endif %}">
+                            <a href="{{path('PrivacyProvider')}}">
+                                <i class="material-icons">info</i>
+                                <span>Termos de uso</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="block-header">
+                    <h2>{% block title %}{% endblock %}</h2>
+                </div>
+            </div>
+
+            {% block body %}
+            {% endblock %}
+        </section>
+
+    </body>
+
+    <script src="{{asset("theme/plugins/jquery/jquery.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/bootstrap/js/bootstrap.js")}}"></script>
+    <script src="{{asset("theme/plugins/node-waves/waves.js")}}"></script>
+    <script src="{{asset("theme/js/admin.js")}}"></script>
+    {# <script src="http://localhost:9998/socket.io/socket.io.js"></script> #}
+    <script src="https://node.aplicativobeleza.com/socket.io/socket.io.js"></script>
+    <script>
+        {# var socket = io("http://localhost:9998"); #}
+        var socket = io("https://node.aplicativobeleza.com", {
+            secure: true
+        });
+    </script>
+
+    {% block script %}
+    {% endblock %}
+</html>

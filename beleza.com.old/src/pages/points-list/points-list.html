@@ -1,0 +1,35 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    
+    <ion-title>Meus pontos</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-refresher (ionRefresh)="refreshPoints($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card *ngIf="!points.length" text-center>
+    <ion-card-content>Não há pontos</ion-card-content>
+  </ion-card>
+
+  <ion-list *ngIf="points.length" padding>
+    <ion-item *ngFor="let p of points">
+      <ion-avatar item-start>
+        <img [src]="p.photo ? web.url + '/upload/provider/' + p.photo : 'assets/imgs/provider.png'" />
+      </ion-avatar>
+
+      <h2>{{p.provider}}</h2>
+      <p>{{p.services}}</p>
+
+      <p item-end>{{p.points}} pts</p>
+    </ion-item>
+  </ion-list>
+</ion-content>

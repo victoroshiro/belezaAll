@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
+
+    <title>Beleza.com</title>
+
+    <style>
+        body{
+            font-family: "Roboto", sans-serif;
+        }
+        
+        figure{
+            font-size: 1.5em;
+            font-weight: 300;
+            margin-top: 8%;
+        }
+        figurecaption{
+            font-family: sans-serif;
+        }
+        figure, main{
+            text-align: center;
+        }
+
+        main a{
+            width: 40%;
+            display: inline-block;
+        }
+        main{
+            margin: auto;
+            max-width: 500px;
+        }
+        main a{
+            margin: 1em;
+            background-size: cover;
+            background-position: 0 0;
+        }
+        main a.apple{
+            width: 44%;
+            height: 4em;
+            background-image: url("img/apple.png");
+        }
+        main a.googleplay{
+            width: 38%;
+            height: 4em;
+            background-image: url("img/googleplay.png");
+        }
+
+        @media (max-width: 800px){
+            main a.apple, main a.googleplay{
+                width: 80%;
+            }
+            main a.apple{
+                height: 7.3em;
+            }
+            main a.googleplay{
+                height: 8.5em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <figure>
+        <img src="img/logo-layout.png" alt="Logo Beleza.com" />
+        <figcaption>Em breve</figcaption>
+    </figure>
+    
+    <main>
+        <a href="#" class="googleplay"></a>
+        <a href="#" class="apple"></a>
+    </main>
+</body>
+</html>

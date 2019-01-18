@@ -1,0 +1,113 @@
+// http://ionicframework.com/docs/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+ion-header{
+    ion-navbar{
+        .toolbar-background{
+            background: linear-gradient(65deg, #943E95 25%, #F53593);
+        }
+
+        .bar-button{
+            color: #FFFFFF;
+        }
+
+        ion-title{
+            .toolbar-title{
+                color: #FFFFFF;
+            }
+
+            img{
+                top: -4px;
+                right: 8px;
+                height: 32px;
+                position: absolute;
+            }
+        }
+
+        ion-buttons{
+            button{
+                ion-icon{
+                    font-size: 1.8em;
+                }
+            }
+        }
+    }
+}
+
+ion-content{
+    form{
+        button[ion-button][full][large]{
+            height: 3.2em;
+            font-size: 1em;
+        }
+    }
+}
+
+ion-menu{
+    header{
+        padding: 1em 1.4em;
+        background-color: rgba(0, 0, 0, 0.06);
+
+        img{
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+        }
+
+        h3{
+            font-size: 1em;
+            margin-bottom: 0;
+        }
+
+        p{
+            margin: 0;
+            font-size: 0.8em;
+            color: rgba(0, 0, 0, 0.54);
+        }
+    }
+
+    ion-list{
+        button[ion-item]{
+            font-size: 1em;
+
+            ion-icon{
+                font-size: 1.5em;
+                margin-top: 0.75em !important;
+                margin-bottom: 0.45em !important;
+            }
+        }
+    }
+}
+
+ion-action-sheet{
+    .action-sheet-cancel{
+        .button-inner{
+            color: #F44336;
+        }
+    }
+}
+
+ion-tabs{
+    .tabbar{
+        background-color: map-get($colors, "saloon") !important;
+    }
+}
+
+.bind-event{
+    *{
+        pointer-events: none;
+    }
+}

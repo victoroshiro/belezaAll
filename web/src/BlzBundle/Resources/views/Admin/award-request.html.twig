@@ -1,0 +1,108 @@
+{% extends "base-admin.html.twig" %}
+
+{% block style %}
+    <link href="{{asset("theme/plugins/bootstrap-select/css/bootstrap-select.css")}}" rel="stylesheet" />
+    <link href="{{asset("theme/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css")}}" rel="stylesheet">
+    <link href="{{asset("theme/plugins/sweetalert/sweetalert.css")}}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <p>Solicitações de premiação</p>
+                </div>
+                <div class="body table-responsive">
+                    {% if award %}
+                        <table class="table dataTable">
+                            <thead>
+                                <tr>
+                                    <th>Usuário</th>
+                                    <th>Premiação</th>
+                                    <th>CEP</th>
+                                    <th>Rua</th>
+                                    <th>Bairro</th>
+                                    <th>Número</th>
+                                    <th>Cidade</th>
+                                    <th>Estado</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for a in award %}
+                                    <tr>
+                                        <td>{{a.user.name}}</td>
+                                        <td>{{a.award.name}}</td>
+                                        <td>{{a.address.cep}}</td>
+                                        <td>{{a.address.street}}</td>
+                                        <td>{{a.address.neighborhood}}</td>
+                                        <td>{{a.address.number}}</td>
+                                        <td>{{a.address.city.name}}</td>
+                                        <td>{{a.address.city.state.uf}}</td>
+                                        <td><a class="delivery-award" data-id="{{a.id}}"><i class="material-icons">thumb_up</i></a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>Não há solicitações de premiação</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{asset("theme/plugins/bootstrap-select/js/bootstrap-select.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/jquery.dataTables.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/buttons.flash.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/jszip.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/pdfmake.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/vfs_fonts.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/buttons.html5.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/buttons.print.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/sweetalert/sweetalert.min.js")}}"></script>
+    <script src="{{asset("script.js")}}"></script>
+    <script>
+        $(document).on("click", ".delivery-award", function(){
+            var ref = this;
+
+            swal({
+                title: "Aviso",
+                text: "Tem certeza que enviou essa premiação ao endereço correto?</p>",
+                html: true,
+                cancelButtonText: "Cancelar",
+                showCancelButton: true,
+                type: "warning"
+            }, function(active){
+                if(active){
+                    swal("Entregando...", "entregando premiação", "info");
+                    
+                    $.ajax({
+                        method: "POST",
+                        url: "/admin/award/delivery/",
+                        data: "id=" + $(ref).attr("data-id"),
+                        success: function(){
+                            swal({
+                                title: "Sucesso",
+                                text: "Premiação marcada como entregue com sucesso",
+                                type: "success"
+                            });
+
+                            DataTable.row( $(ref).parents("tr") ).remove().draw();
+                        },
+                        error: function(data){
+                            console.log(data);
+                            swal("Erro", data.responseText, "error");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+{% endblock %}

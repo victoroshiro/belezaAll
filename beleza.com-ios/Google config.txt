@@ -1,0 +1,23 @@
+ANDROID
+
+Mover google-services.json para a pasta ra�z do app nativo.
+
+IOS
+
+Mova o arquivo GoogleService-Info.plist cujo download voc� acabou de fazer na raiz de seu projeto Xcode e adicione-o a todos os destinos.
+
+C++
+Os servi�os do Google usam o CocoaPods para instalar e gerenciar depend�ncias. Abra uma janela do terminal e navegue at� o local do projeto Xcode do seu app.
+
+Crie um Perfil se ainda n�o tiver um:
+
+pod init
+Abra seu Perfil e adicione:
+
+pod 'Firebase/Core'
+inclui o Analytics por padr�o help_outline
+
+Salve o arquivo e execute:
+
+pod install
+Isso cria um .xcworkspace para seu aplicativo. Use este arquivo para todos os desenvolvimentos futuros do seu aplicativo.

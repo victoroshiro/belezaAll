@@ -1,0 +1,42 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Completar cadastro</ion-title>
+
+    <ion-buttons end>
+      <button (click)="logout()" ion-button><ion-icon name="exit"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <form #userComplete="ngForm" (ngSubmit)="complete(userComplete)">
+    <ion-input type="hidden" name="id" [(ngModel)]="user.id"></ion-input>
+
+    <div padding>      
+      <ion-item>
+        <ion-label><ion-icon name="call"></ion-icon></ion-label>
+        <ion-input type="tel" name="phone" [(ngModel)]="user.phone" [brmasker]="{mask: '(00) 0000-0000', len: 14}" placeholder="Telefone"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label><ion-icon name="call"></ion-icon></ion-label>
+        <ion-input type="tel" name="celphone" [(ngModel)]="user.celphone" [brmasker]="{mask: '(00) 00000-0000', len: 15}" placeholder="Celular" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label><ion-icon name="card"></ion-icon></ion-label>
+        <ion-input type="text" name="rg" [(ngModel)]="user.rg" [brmasker]="{mask: '00.000.000-0', len: 12}" placeholder="RG" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label><ion-icon name="card"></ion-icon></ion-label>
+        <ion-input type="text" name="cpf" [(ngModel)]="user.cpf" [brmasker]="{mask: '000.000.000-00', len: 14}" placeholder="CPF" required></ion-input>
+      </ion-item>
+    </div>
+
+    <button [disabled]="!userComplete.valid" color="rose" ion-button full large>Continuar</button>
+  </form>
+</ion-content>

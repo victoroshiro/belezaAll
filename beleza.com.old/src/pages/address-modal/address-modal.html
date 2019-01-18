@@ -1,0 +1,54 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Novo endereço</ion-title>
+
+    <ion-buttons start>
+      <button (click)="dismissModal()" ion-button clear>
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form #addressForm="ngForm" (ngSubmit)="setAddress(addressForm)">
+    <ion-item>
+      <ion-label>CEP</ion-label>
+      <ion-input (ionBlur)="getAddressByCep(address.cep)" [(ngModel)]="address.cep" name="cep" type="text" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Rua</ion-label>
+      <ion-input [(ngModel)]="address.street" name="street" type="text" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Número</ion-label>
+      <ion-input [(ngModel)]="address.number" name="number" type="text" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Bairro</ion-label>
+      <ion-input [(ngModel)]="address.neighborhood" name="neighborhood" type="text" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Estado</ion-label>
+      <ion-select [(ngModel)]="address.state" name="state" (ionChange)="getCities(address.state)" required>
+        <ion-option *ngFor="let s of states" value="{{s.uf}}">{{s.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item (click)="showCitiesModal()" class="bind-event">
+      <ion-label>Cidade</ion-label>
+      <ion-select [(ngModel)]="address.city" name="city" required>
+        <ion-option *ngFor="let c of cities" value="{{c.id}}">{{c.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <button [disabled]="!addressForm.valid" color="salon" ion-button full>ADICIONAR</button>
+  </form>
+</ion-content>

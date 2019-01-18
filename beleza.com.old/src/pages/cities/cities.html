@@ -1,0 +1,34 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Escolher cidade</ion-title>
+
+    <ion-buttons end>
+      <button (click)="dismissModal()" ion-button><ion-icon name="close"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div class="searchbar">
+    <input type="search" [(ngModel)]="search" placeholder="Buscar por nome" />
+    <ion-icon name="search"></ion-icon>
+  </div>
+
+  <ion-card *ngIf="!search || !search.length || search.length < 2" text-center>
+    <ion-card-content>Pesquise uma cidade</ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="search && search.length >= 2 && !(cities | filterCities:search:'name').length" text-center>
+    <ion-card-content>Cidade não encontrada</ion-card-content>
+  </ion-card>
+
+  <ion-list radio-group padding>
+    <ion-item *ngFor="let c of cities | filterCities:search:'name'">
+      <ion-label>{{c.name}}</ion-label>
+      <ion-radio color="salon" [value]="c.id" (ionSelect)="dismissModal(c.id)"></ion-radio>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,80 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Agenda</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <form #schedule="ngForm" (ngSubmit)="save(schedule)">
+    <div padding>
+      <ion-item>
+        <ion-label floating>Período inicial</ion-label>
+        <ion-datetime name="date_min" [(ngModel)]="schedule.dateMin"
+          displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY"
+          monthNames="janeiro, fevereiro, março, abril, maio, junho, julho, agosto, setembro, outubro, novembro, dezembro"
+          monthShortNames="jan, fev, mar, abr, mai, jun, jul, ago, set, out, nov, dez"
+          dayNames="domingo, segunda-feira, terça-feira, quarta-feira, quinta-feira, sexta-feira, sábado"
+          dayShortNames="dom, seg, ter, qua, qui, sex, sab" required></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Período final</ion-label>
+        <ion-datetime name="date_max" [(ngModel)]="schedule.dateMax"
+          displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY"
+          monthNames="janeiro, fevereiro, março, abril, maio, junho, julho, agosto, setembro, outubro, novembro, dezembro"
+          monthShortNames="jan, fev, mar, abr, mai, jun, jul, ago, set, out, nov, dez"
+          dayNames="domingo, segunda-feira, terça-feira, quarta-feira, quinta-feira, sexta-feira, sábado"
+          dayShortNames="dom, seg, ter, qua, qui, sex, sab" required></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Dia inicial</ion-label>
+        <ion-select name="day_min" [(ngModel)]="schedule.dayMin" required>
+          <ion-option value="1">Segunda-feira</ion-option>
+          <ion-option value="2">Terça-feira</ion-option>
+          <ion-option value="3">Quarta-feira</ion-option>
+          <ion-option value="4">Quinta-feira</ion-option>
+          <ion-option value="5">Sexta-feira</ion-option>
+          <ion-option value="6">Sábado</ion-option>
+          <ion-option value="7">Domingo</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Dia final</ion-label>
+        <ion-select name="day_max" [(ngModel)]="schedule.dayMax" required>
+          <ion-option value="1">Segunda-feira</ion-option>
+          <ion-option value="2">Terça-feira</ion-option>
+          <ion-option value="3">Quarta-feira</ion-option>
+          <ion-option value="4">Quinta-feira</ion-option>
+          <ion-option value="5">Sexta-feira</ion-option>
+          <ion-option value="6">Sábado</ion-option>
+          <ion-option value="7">Domingo</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Hora inicial</ion-label>
+        <ion-select name="time_min" [(ngModel)]="schedule.timeMin" required>
+          <ion-option *ngFor="let t of times; let i = index" [value]="i">{{t}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Hora final</ion-label>
+        <ion-select name="time_max" [(ngModel)]="schedule.timeMax" required>
+          <ion-option *ngFor="let t of times; let i = index" [value]="i">{{t}}</ion-option>
+        </ion-select>
+      </ion-item>
+    </div>
+
+    <button [disabled]="!schedule.valid" color="rose" ion-button full large>Salvar</button>
+  </form>
+</ion-content>

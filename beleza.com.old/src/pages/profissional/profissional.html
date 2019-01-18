@@ -1,0 +1,44 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    
+    <ion-title>Profissionais</ion-title>
+
+    <ion-buttons end>
+      <button (click)="filterModal()" ion-button><ion-icon name="funnel"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-refresher (ionRefresh)="getProvidersBySavedFilter($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card *ngIf="!providers.length" text-center>
+    <ion-card-content>Não há prestadores de serviço com essas características</ion-card-content>
+  </ion-card>
+
+  <ng-container *ngIf="providers.length">
+    <div class="searchbar">
+      <input type="search" [(ngModel)]="search" placeholder="Buscar por nome" />
+      <ion-icon name="search"></ion-icon>
+    </div>
+    
+    <ion-list padding>
+      <button *ngFor="let p of providers | filter:search:'name'" (click)="app.pushPage('DetailsPage', {id: p.id, specialty: specialty})" ion-item>
+        <ion-avatar item-start>
+          <img [src]="p.photo ? web.url + '/upload/provider/' + p.photo : 'assets/imgs/provider.png'" />
+        </ion-avatar>
+  
+        <h2>{{p.name}}</h2>
+        <p>{{p.specialty}}</p>
+      </button>
+    </ion-list>
+  </ng-container>
+</ion-content>

@@ -1,0 +1,107 @@
+{% extends "base-admin.html.twig" %}
+
+{% block style %}
+    <link href="{{asset("theme/plugins/sweetalert/sweetalert.css")}}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <p>Editar plano</p>
+                </div>
+                <div class="body">            
+                    {% if plan %}
+                        <form id="plan-edit">
+                            <input type="hidden" name="id" value="{{plan.id}}" />
+
+                            <div class="form-group form-float row">
+                                <div class="col-md-12">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="name" value="{{plan.name}}" maxlength="128" required>
+                                        <label class="form-label">Nome</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-line">
+                                        <textarea class="form-control no-resize" name="description" rows="4" required>{{plan.description}}</textarea>
+                                        <label class="form-label">Descrição</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="amount" value="{{plan.amount}}" required>
+                                        <label class="form-label">Valor</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-line">
+                                        <input type="number" class="form-control" name="number_of_services" value="{{plan.numberOfServices}}" required>
+                                        <label class="form-label">Quantidade de serviços</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-line">
+                                        <input type="number" class="form-control" name="number_of_ads" value="{{plan.numberOfAds}}" required>
+                                        <label class="form-label">Anúncios por semana</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <button id="establishment-submit" class="btn bg-pink waves-effect">EDITAR</button>
+                                </div>
+                            </div>
+                        </form>
+                    {% else %}
+                        <p>Plano não encontrado</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{asset("theme/plugins/jquery-inputmask/jquery.inputmask.bundle.js")}}"></script>
+    <script src="{{asset("theme/plugins/sweetalert/sweetalert.min.js")}}"></script>
+    <script>
+        $("input[name='amount']").inputmask("decimal", {
+            "alias": "numeric",
+            "groupSeparator": ".",
+            "autoGroup": true,
+            "digits": 2,
+            "radixPoint": ",",
+            "digitsOptional": false,
+            "allowMinus": false,
+            "prefix": "R$ ",
+            "placeholder": "",
+            "rightAlign": false,
+            "showMaskOnHover": false
+        });
+        
+        $("#plan-edit").submit(function(e){
+            e.preventDefault();
+
+            $.ajax({
+                method: "POST",
+                url: "/admin/plan/edit/",
+                data: $(this).serialize(),
+                success: function(){
+                    swal({
+                        title: "Sucesso",
+                        text: "Plano editado com sucesso",
+                        type: "success"
+                    });
+                },
+                error: function(data){
+                    swal("Erro", data.responseText, "error");
+                }
+            });
+        });
+    </script>
+{% endblock %}

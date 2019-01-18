@@ -1,0 +1,29 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Avaliação</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <main text-center>
+    <h1>O que achou do serviço?</h1>
+    <h2>Avalie com uma nota de 1 a 5</h2>
+
+    <div class="rating">
+      <ion-icon [name]="rating > 0 ? 'star' : 'star-outline'" (click)="setRating(1)"></ion-icon>
+      <ion-icon [name]="rating > 1 ? 'star' : 'star-outline'" (click)="setRating(2)"></ion-icon>
+      <ion-icon [name]="rating > 2 ? 'star' : 'star-outline'" (click)="setRating(3)"></ion-icon>
+      <ion-icon [name]="rating > 3 ? 'star' : 'star-outline'" (click)="setRating(4)"></ion-icon>
+      <ion-icon [name]="rating > 4 ? 'star' : 'star-outline'" (click)="setRating(5)"></ion-icon>
+    </div>
+  </main>
+
+  <button (click)="submitRating()" [disabled]="rating == 0" class="submit" color="salon" ion-button full>Avaliar</button>
+</ion-content>

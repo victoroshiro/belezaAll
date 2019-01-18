@@ -1,0 +1,60 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Solicitar premiação</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-refresher (ionRefresh)="getAwardRequestContent($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <form #awardRequest="ngForm" (submit)="request(awardRequest)">
+    <main padding>
+      <h2>Meus pontos <span float-right>{{points}}</span></h2>
+
+      <h2>Premiação</h2>
+
+      <ion-card *ngIf="!awards.length" text-center>
+        <ion-card-content>Não há premiações disponíveis</ion-card-content>
+      </ion-card>
+
+      <ion-list name="award" [(ngModel)]="awardRequest.award" *ngIf="awards.length" radio-group required>
+        <ion-item *ngFor="let a of awards">
+          <img [src]="web.url + '/upload/award/' + a.photo" item-start />
+          <ion-label>
+            <h3>{{a.name}}</h3>
+            <p>Pts necessários: {{a.points}}</p>
+          </ion-label>
+          <ion-radio color="salon" [value]="a.id"></ion-radio>
+        </ion-item>
+      </ion-list>
+
+      <h2>Endereço de entrega</h2>
+
+      <ion-list name="address" [(ngModel)]="awardRequest.address" radio-group required>
+        <ion-item *ngFor="let a of addresses">
+          <ion-label>
+            <h3>{{a.street}}</h3>
+            <p>{{a.cep}} | {{a.neighborhood}}, {{a.number}}</p>
+            <p>{{a.city}} - {{a.state}}</p>
+          </ion-label>
+          <ion-radio color="salon" [value]="a.id"></ion-radio>
+        </ion-item>
+
+        <div text-center>
+          <button type="button" (click)="addAddress()" color="salon" small ion-button>Adicionar endereço</button>
+        </div>
+      </ion-list>
+    </main>
+
+    <button class="submit" [disabled]="!awardRequest.valid" color="salon" ion-button full>Solicitar premiação</button>
+  </form>
+</ion-content>

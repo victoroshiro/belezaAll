@@ -1,0 +1,63 @@
+{% extends "base-admin.html.twig" %}
+
+{% block style %}
+    <link href="{{asset("theme/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css")}}" rel="stylesheet">
+    <link href="{{asset("theme/plugins/sweetalert/sweetalert.css")}}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <p>Financeiro</p>
+                </div>
+                <div class="body table-responsive">
+                    {% if finances %}
+                        <table class="table dataTable">
+                            <thead>
+                                <tr>
+                                    <th>Profissional</th>
+                                    <th>Agendamento</th>
+                                    <th>Valor recebido</th>
+                                    <th>Taxa do franqueado</th>
+                                    <th>Taxa do sistema</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for f in finances %}
+                                    <tr>
+                                        <td>{{f.provider.name}}</td>
+                                        <td><a href="/admin/agendamento/{{f.id}}/" target="_blank"><i class="material-icons">search</i></a></td>
+                                        <td>R$ {{f.amount.amount | number_format(2, ",", ".")}}</td>
+                                        <td>R$ {{f.franchiseeTax.amount | number_format(2, ",", ".")}}</td>
+                                        <td>R$ {{f.systemtax.amount | number_format(2, ",", ".")}}</td>
+                                        <td>R$ {{(f.amount.amount + f.franchiseeTax.amount + f.systemtax.amount) | number_format(2, ",", ".")}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>Não há lançamentos financeiros</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{asset("theme/plugins/jquery-datatable/jquery.dataTables.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/buttons.flash.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/jszip.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/pdfmake.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/vfs_fonts.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/buttons.html5.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/buttons.print.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/sweetalert/sweetalert.min.js")}}"></script>
+    <script src="{{asset("script.js")}}"></script>
+{% endblock %}

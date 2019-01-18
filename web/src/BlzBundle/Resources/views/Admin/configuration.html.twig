@@ -1,0 +1,89 @@
+{% extends "base-admin.html.twig" %}
+
+{% block style %}
+    <link href="{{asset("theme/plugins/sweetalert/sweetalert.css")}}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <p>Configurações</p>
+                </div>
+                <div class="body">            
+                    <form id="configuration">
+                        <div class="form-group form-float row">
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="system_tax" value="{{systemTax.value}}" pattern="[0-9]+\.*[0-9]{0,2}" required>
+                                    <label class="form-label">Taxa de cobrança do sistema (%)</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="franchisee_tax" value="{{franchiseeTax.value}}" pattern="[0-9]+\.*[0-9]{0,2}" required>
+                                    <label class="form-label">Taxa do franqueado (%)</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-line">
+                                    <textarea class="form-control no-resize" name="franchisee_privacy" rows="8" required>{{franchiseePrivacy.value}}</textarea>
+                                    <label class="form-label">Termos de uso do franqueado</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-line">
+                                    <textarea class="form-control no-resize" name="provider_privacy" rows="8" required>{{providerPrivacy.value}}</textarea>
+                                    <label class="form-label">Termos de uso do prestador de serviço</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-line">
+                                    <textarea class="form-control no-resize" name="user_privacy" rows="8" required>{{userPrivacy.value}}</textarea>
+                                    <label class="form-label">Termos de uso do cliente</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <button id="establishment-submit" class="btn bg-pink waves-effect">SALVAR</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{asset("theme/plugins/jquery-inputmask/jquery.inputmask.bundle.js")}}"></script>
+    <script src="{{asset("theme/plugins/sweetalert/sweetalert.min.js")}}"></script>
+    <script>
+        $("input[name='system_tax'], input[name='franchisee_tax']").inputmask("9[9.99]");
+
+        $("#configuration").submit(function(e){
+            e.preventDefault();
+
+            $.ajax({
+                method: "POST",
+                url: "/admin/configuration/",
+                data: $(this).serialize(),
+                success: function(){
+                    swal({
+                        title: "Sucesso",
+                        text: "Configurações salvas com sucesso",
+                        type: "success"
+                    });
+                },
+                error: function(data){
+                    swal("Erro", data.responseText, "error");
+                }
+            });
+        });
+    </script>
+{% endblock %}

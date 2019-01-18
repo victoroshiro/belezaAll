@@ -1,0 +1,102 @@
+{% extends "base-admin.html.twig" %}
+
+{% block style %}
+    <link href="{{asset("theme/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css")}}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div class="info-box bg-purple hover-expand-effect">
+                <div class="icon">
+                    <i class="material-icons">person</i>
+                </div>
+                <div class="content">
+                    <div class="text">PRESTADORES DE SERVIÇO</div>
+                    <div class="number count-to" data-from="0" data-to="{{provider}}" data-speed="1000" data-fresh-interval="20"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div class="info-box bg-deep-purple hover-expand-effect">
+                <div class="icon">
+                    <i class="material-icons">person</i>
+                </div>
+                <div class="content">
+                    <div class="text">CLIENTES</div>
+                    <div class="number count-to" data-from="0" data-to="{{client}}" data-speed="1000" data-fresh-interval="20"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div class="info-box bg-pink hover-expand-effect">
+                <div class="icon">
+                    <i class="material-icons">person</i>
+                </div>
+                <div class="content">
+                    <div class="text">ADMINISTRADORES</div>
+                    <div class="number count-to" data-from="0" data-to="{{admin}}" data-speed="1000" data-fresh-interval="20"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <p>Novos prestadores de serviço</p>
+                </div>
+                <div class="body table-responsive">
+                    {% if providers %}
+                        <table class="table dataTable">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Telefone / Celular</th>
+                                    <th>Cidade</th>
+                                    <th>Estado</th>
+                                    <th>Franqueado</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for p in providers %}
+                                    <tr>
+                                        <td>{{p.name}}</td>
+                                        <td>{{p.email}}</td>
+                                        <td>{{p.phone ? p.phone : "-"}} / {{p.celphone ? p.celphone : "-"}}</td>
+                                        <td>{{p.city}}</td>
+                                        <td>{{p.state}}</td>
+                                        <td>{{p.franchisee ? p.franchisee : "-"}}</td>
+                                        <td><a href="/admin/prestador-servico/{{p.id}}/"><i class="material-icons">create</i></a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>Não há novos prestadores de serviço</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{asset("theme/plugins/jquery-countto/jquery.countTo.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/jquery.dataTables.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/buttons.flash.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/jszip.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/pdfmake.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/vfs_fonts.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/buttons.html5.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-datatable/extensions/export/buttons.print.min.js")}}"></script>
+    <script src="{{asset("theme/plugins/sweetalert/sweetalert.min.js")}}"></script>
+    <script src="{{asset("script.js")}}"></script>
+    <script>
+        $('.count-to').countTo();
+    </script>
+{% endblock %}

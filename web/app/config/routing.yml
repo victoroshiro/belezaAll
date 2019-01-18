@@ -1,0 +1,13 @@
+blz:
+    resource: "@BlzBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+logout_admin:
+    path: /admin/logout
+
+logout_franchisee:
+    path: /franqueado/logout
+
+logout_provider:
+    path: /prestador-servico/logout

@@ -1,0 +1,11 @@
+page-payment-methods {
+    ion-item{
+        &.item-checkbox{
+            margin-top: 0.8em;
+
+            .item-inner{
+                border-bottom: none !important;
+            }
+        }
+    }
+}

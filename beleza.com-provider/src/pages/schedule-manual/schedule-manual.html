@@ -1,0 +1,39 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Agenda</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <my-date-picker [options]="myDatePickerOptions" (dateChanged)="onDateChanged($event)"></my-date-picker>
+
+  <h1 text-center>Horários disponíveis em {{dateFormated}}</h1>
+
+  <form>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-6>
+          <ion-item *ngFor="let t of morningTimes; let i = index">
+            <ion-label>{{t}}</ion-label>
+            <ion-checkbox (ionChange)="chooseTime($event, i)" color="saloon" [checked]="times.indexOf(i) != -1"></ion-checkbox>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item *ngFor="let t of afternoonTimes; let i = index">
+            <ion-label>{{t}}</ion-label>
+            <ion-checkbox (ionChange)="chooseTime($event, morningTimes.length + i)" color="saloon" [checked]="times.indexOf(morningTimes.length + i) != -1"></ion-checkbox>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <button [disabled]="!curdate" (click)="organizeSchedule()" color="rose" ion-button full large>Salvar dia</button>
+  </form>
+</ion-content>

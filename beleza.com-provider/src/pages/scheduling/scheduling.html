@@ -1,0 +1,5 @@
+<ion-tabs tabsPlacement="top" *ngIf="!completeRegister">
+    <ion-tab [root]="schedulingWaitingRoot" tabTitle="Aguardando"></ion-tab>
+    <ion-tab [root]="schedulingCanceledRoot" tabTitle="Cancelados"></ion-tab>
+    <ion-tab [root]="schedulingFinalizedRoot" tabTitle="Finalizados"></ion-tab>
+</ion-tabs>

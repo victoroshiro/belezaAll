@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Beleza.com <img src="assets/imgs/icon.png" /></ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="getHomeContent($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-slides *ngIf="ads.length" loop pager autoplay="5000">
+    <ion-slide *ngFor="let a of ads" (click)="app.pushPage('DetailsPage', {id: a.provider})">
+      <img [src]="web.url + '/upload/ad/' + a.photo" />
+
+      <div class="slide-description">
+        <h1>{{a.name}}</h1>
+        <p>{{a.description}}</p>
+      </div>
+    </ion-slide>
+  </ion-slides>
+  
+  <main>
+    <ion-card *ngIf="!categories.length" text-center>
+      <ion-card-content>Não há categorias</ion-card-content>
+    </ion-card>
+
+    <ion-list *ngIf="categories.length">
+      <ng-container *ngFor="let c of categories; let i = index">
+        <ion-item (click)="showSpecialty(i)">
+          <ion-avatar item-start>
+            <img [src]="web.url + '/upload/category/' + c.photo" />
+          </ion-avatar>
+  
+          <h2>{{c.name}}</h2>
+          <p>{{c.description}}</p>
+        </ion-item>
+  
+        <div *ngIf="categories[i].selected" class="subcategories">
+          <ion-item (click)="app.pushPage('ProfissionalPage', {specialty: s.id})" *ngFor="let s of c.specialty">
+            <ion-avatar item-start>
+            </ion-avatar>
+  
+            <h2>{{s.name}}</h2>
+            <p>{{s.description}}</p>
+          </ion-item>
+        </div>
+      </ng-container>
+    </ion-list>
+  </main>
+</ion-content>

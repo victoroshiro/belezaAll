@@ -1,0 +1,82 @@
+{% extends "base-franchisee.html.twig" %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="card">
+                {% if scheduling %}
+                    <div class="header">
+                        <p>Detalhes</p>
+                    </div>
+                    <div class="body" id="scheduling-details">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h2>Informações cliente</h2>
+
+                                <figure>
+                                    {% if scheduling.user.userData.social %}
+                                        <img src="{{scheduling.user.userData.photo}}" />
+                                    {% else %}
+                                        <img src="{% if scheduling.user.userData.photo %}/upload/user/{{scheduling.user.userData.photo}}{% else %}{{asset("img/profile.jpg")}}{% endif %}" />
+                                    {% endif %}
+                                </figure>
+
+                                <p><b>Nome:</b> {{scheduling.user.name}}</p>
+                                <p><b>Email:</b> {{scheduling.user.email}}</p>
+                                <p><b>Telefone:</b> {% if scheduling.user.userData.phone %}{{scheduling.user.userData.phone}}{% else %}-{% endif %}</p>
+                                <p><b>Celular:</b> {% if scheduling.user.userData.celphone %}{{scheduling.user.userData.celphone}}{% else %}-{% endif %}</p>
+                            </div> 
+
+                            <div class="col-md-6">
+                                <h2>Informações agendamento</h2>
+
+                                {% if scheduling.notes %}<p><b>Detalhes: {{scheduling.notes}}</b></p>{% endif %}
+                                {% if scheduling.rating %}<p><b>Nota: {{scheduling.rating | number_format(2)}}</b></p>{% endif %}
+                                <p><b>Status:</b> {{scheduling.status.name}}</p>
+                                <p><b>Solicitação:</b> {{scheduling.datetime | date("d/m/Y H:i")}}</p>
+                                <p><b>Data:</b> {{scheduling.date | date("d/m/Y")}}</p>
+                                <p><b>Horário:</b> {{scheduling.time | date("H:i")}}</p>
+
+                                <hr />
+
+                                <p><b>Método de pagamento</b> {{scheduling.paymentMethod.name}}</p>
+                                <p><b>Total: R$ {{scheduling.totalAmount | number_format(2, ",", ".")}}</b></p>
+                            </div> 
+
+                            <div class="col-md-12">
+                                <h2>Endereço</h2>
+
+                                <p><b>A domicilio:</b> {% if scheduling.homeCare %}Sim{% else %}Não{% endif %}</p>
+                                {% if scheduling.homeCare %}
+                                    <p>{{scheduling.address.street}}</p>
+                                    <p>{{scheduling.address.cep}} | {{scheduling.address.neighborhood}}, {{scheduling.address.number}}</p>
+                                    <p>{{scheduling.address.city.name}} - {{scheduling.address.city.state.uf}}</p>
+                                {% else %}
+                                    <p>{{scheduling.provider.providerData.address.street}}</p>
+                                    <p>{{scheduling.provider.providerData.address.cep}} | {{scheduling.provider.providerData.address.neighborhood}}, {{scheduling.provider.providerData.address.number}}</p>
+                                    <p>{{scheduling.provider.providerData.address.city.name}} - {{scheduling.provider.providerData.address.city.state.uf}}</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-12">
+                                <h2>Serviços</h2>
+
+                                {% for s in scheduling_services %}
+                                    <div class="scheduling-services">
+                                        <h3>{{s.service.name}}</h3>
+                                        <p>{{s.price | number_format(2, ",", ".")}}</p>
+                                        <p>{{s.service.description}}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>            
+                    </div>
+                {% else %}
+                    <div class="body">
+                        <p>Agendamento não encontrado</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

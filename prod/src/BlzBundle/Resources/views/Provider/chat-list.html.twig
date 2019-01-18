@@ -1,0 +1,30 @@
+{% extends "base-provider.html.twig" %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <p>Chats</p>
+                </div>
+                <div class="body" id="chat-list">
+                    {% if chat %}
+                        {% for c in chat %}
+                            <a href="/prestador-servico/chat/{{c.id}}/">
+                                <div>
+                                    <img src="{% if c.user.userData.photo %}/upload/user/{{c.user.userData.photo}}{% else %}{{asset("img/profile.jpg")}}{% endif %}" />
+                                    <div>
+                                        <h2>{{c.user.name}}</h2>
+                                        <p>{{c.lastDatetime | date("d/m/Y H:i")}} - {{c.lastMessage}}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    {% else %}
+                        <p>Não há conversas</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

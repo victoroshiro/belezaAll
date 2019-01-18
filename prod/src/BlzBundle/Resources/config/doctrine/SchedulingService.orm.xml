@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="BlzBundle\Entity\SchedulingService" table="scheduling_service">
+    <indexes>
+      <index name="fk_scheduling_has_provider_service_provider_service1_idx" columns="service"/>
+      <index name="fk_scheduling_has_provider_service_scheduling1_idx" columns="scheduling"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="price" type="float" column="price" precision="10" scale="0" nullable="false"/>
+    <many-to-one field="service" target-entity="ProviderService" fetch="LAZY">
+      <join-columns>
+        <join-column name="service" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="scheduling" target-entity="Scheduling" fetch="LAZY">
+      <join-columns>
+        <join-column name="scheduling" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

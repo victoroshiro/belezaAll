@@ -1,0 +1,19 @@
+page-profile {
+    figure{
+        img{
+            width: 128px;
+            height: 128px;
+            border-radius: 50%;
+        }
+    }
+
+    ion-item{
+        &.item-checkbox{
+            margin-top: 0.8em;
+
+            .item-inner{
+                border-bottom: none !important;
+            }
+        }
+    }
+}

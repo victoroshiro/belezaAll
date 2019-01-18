@@ -1,0 +1,106 @@
+page-chat {
+    .scroll-content{
+        overflow: hidden;
+    }
+
+    main{
+        width: 100%;
+        display: flex;
+        position: absolute;
+        flex-direction: column;
+        height: 100%;
+
+        .chat-list{
+            flex: 1;
+            overflow: auto;
+            overflow-x: hidden;
+
+            .chat-send, .chat-received{
+                clear: both;
+                padding: 1.2em 0.5em;
+
+                .chat-profile{
+                    width: 48px;
+                    height: 48px;
+                    z-index: +1;
+                    position: relative;
+                    border-radius: 50%;
+                    border: 3px solid #FFFFFF;
+                    background-color: #FFFFFF;
+                }
+
+                .chat-content{
+                    max-width: 75%;
+                    min-width: 7em;
+                    position: relative;
+                    border-radius: 8px;
+                    margin-top: 3px;
+
+                    .chat-time{
+                        top: 0.5em;
+                        font-size: 0.6em;
+                        position: absolute;
+                    }
+                }
+            }
+
+            .chat-send{
+                .chat-profile{
+                    float: right;
+                }
+                .chat-content{
+                    float: right;
+                    color: #FFFFFF;
+                    margin-right: -1.2em;
+                    padding: 1.4em 2em 0.42em 0.5em;
+                    background-color: map-get($colors, "salon");
+                }
+            }
+
+            .chat-received{
+                .chat-profile{
+                    float: left;
+                }
+                .chat-content{
+                    float: left;
+                    color: rgba(0, 0, 0, 0.7);
+                    margin-left: -1.2em;
+                    padding: 1.4em 0.5em 0.42em 2em;
+                    background-color: rgba(0, 0, 0, 0.12);
+
+                    .chat-time{
+                        right: 1em;
+                    }
+                }
+            }
+        }
+
+        .chat-input{
+            display: flex;
+            background-color: rgba(0, 0, 0, 0.12);
+
+            input{
+                flex: 1;
+                resize: none;
+                border: none;
+                padding: 0.5em 1em;
+                background-color: transparent;
+            }
+
+            ion-icon{
+                font-size: 2em;
+                padding: 0.3em 0.5em 0.1em 0.5em;
+                color: rgba(0, 0, 0, 0.54);
+                border-left: 1px solid rgba(0, 0, 0, 0.12);
+
+                &:active{
+                    background-color: rgba(0, 0, 0, 0.24);
+                }
+
+                &:before{
+                    align-items: center;
+                }
+            }
+        }
+    }
+}

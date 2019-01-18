@@ -1,0 +1,56 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Financeiro</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="refreshFinances($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card *ngIf="!finances.length" text-center>
+    <ion-card-content>Não há lançamentos financeiros</ion-card-content>
+  </ion-card>
+
+  <ng-container *ngIf="finances.length">
+    <ion-grid>
+      <ion-row text-center>
+        <ion-col col-6>
+          <div>
+            <p>TOTAL DE GANHOS</p>
+            <h2>R$ {{amount}}</h2>
+          </div>
+        </ion-col>
+        <ion-col col-6>
+          <div>
+            <p>TAXA DO FRANQUEADO</p>
+            <h2>R$ {{franchiseeTax}}</h2>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div padding>
+      <table>
+        <tr>
+          <th>Agendamento</th>
+          <th>Valor recebido</th>
+          <th>Taxa do franqueado</th>
+        </tr>
+
+        <tr *ngFor="let f of finances">
+          <td><ion-icon (click)="navCtrl.push('SchedulingDetailsPage', {id: f.scheduling})" name="search"></ion-icon></td>
+          <td>R$ {{f.amount}}</td>
+          <td>R$ {{f.franchisee_tax}}</td>
+        </tr>
+      </table>
+    </div>
+  </ng-container>
+</ion-content>

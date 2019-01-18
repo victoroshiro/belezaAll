@@ -1,0 +1,36 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Criar anúncio</ion-title>
+
+    <ion-buttons end>
+      <button (click)="dismiss()" ion-button clear>
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <figure>
+    <img (click)="photoOptions()" [src]="photo ? photo : 'assets/imgs/image-chooser.png'" />
+  </figure>
+
+  <form #ad="ngForm" (ngSubmit)="create(ad)">
+    <div padding>
+      <ion-item>
+        <ion-label floating>Nome</ion-label>
+        <ion-input type="text" name="name" [(ngModel)]="ad.name" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Descrição</ion-label>
+        <ion-textarea rows="4" name="description" [(ngModel)]="ad.description" required></ion-textarea>
+      </ion-item>
+    </div>
+
+    <button [disabled]="!ad.valid || !photo" color="rose" ion-button full large>Criar</button>
+  </form>
+</ion-content>

@@ -1,0 +1,253 @@
+{% extends "base-admin.html.twig" %}
+
+{% block style %}
+    <link href="{{asset("theme/plugins/bootstrap-select/css/bootstrap-select.css")}}" rel="stylesheet" />
+    <link href="{{asset("theme/plugins/sweetalert/sweetalert.css")}}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <p>Criar franqueado</p>
+                </div>
+                <div class="body">            
+                    <form id="franchisee-create">
+                        <div class="form-group form-float row">
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="name" maxlength="128" required>
+                                    <label class="form-label">Nome de exibição</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="sponsor_name" maxlength="128" required>
+                                    <label class="form-label">Nome do Responsável</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="birth" required>
+                                    <label class="form-label">Data de nascimento</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="email" class="form-control" name="email" maxlength="128" required>
+                                    <label class="form-label">Email</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="password" class="form-control" name="password" required>
+                                    <label class="form-label">Senha</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="cpf">
+                                    <label class="form-label">CPF</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="cnpj">
+                                    <label class="form-label">CNPJ</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="phone">
+                                    <label class="form-label">Telefone</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="celphone">
+                                    <label class="form-label">Celular</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12"></div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="cep" required>
+                                    <label class="form-label">CEP</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="street" maxlength="128" required>
+                                    <label class="form-label">Rua</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="neighborhood" maxlength="64" required>
+                                    <label class="form-label">Bairro</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="number" required>
+                                    <label class="form-label">Número</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <p>Estado</p>
+                                <select name="state" class="form-control show-tick" required>
+                                    {% for s in states %}
+                                        <option value="{{s.uf}}" {% if s.id == 26 %}selected{% endif %}>{{s.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <p>Cidade</p>
+                                <select name="city" class="form-control show-tick" required>
+                                    {% for c in city %}
+                                        <option value="{{c.id}}" {% if c.id == 5270 %}selected{% endif %}>{{c.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-12"></div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="bank" required>
+                                    <label class="form-label">Banco</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="agency" required>
+                                    <label class="form-label">Agência</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="account" required>
+                                    <label class="form-label">Conta</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="name_bank" required>
+                                    <label class="form-label">Favorecido</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="cpf_bank">
+                                    <label class="form-label">CPF favorecido</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="cnpj_bank">
+                                    <label class="form-label">CNPJ favorecido</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <br />
+                                <button id="establishment-submit" class="btn bg-pink waves-effect">CRIAR</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{asset("theme/plugins/bootstrap-select/js/bootstrap-select.js")}}"></script>
+    <script src="{{asset("theme/plugins/jquery-inputmask/jquery.inputmask.bundle.js")}}"></script>
+    <script src="{{asset("theme/plugins/sweetalert/sweetalert.min.js")}}"></script>
+    <script src="{{asset("script.js")}}"></script>
+    <script>
+        $("input[name='birth']").inputmask('dd/mm/yyyy', { placeholder: '__/__/____' });
+        $("input[name='cpf'], input[name='cpf_bank']").inputmask("999.999.999-99");
+        $("input[name='cnpj'], input[name='cnpj_bank']").inputmask("99.999.999/9999-99");
+        $("input[name='phone']").inputmask("(99) 9999-9999");
+        $("input[name='celphone']").inputmask("(99) 99999-9999");
+
+        $("input[name='cep']").blur(function(){
+            if($(this).val() != ""){
+                getLocation($(this).val(), changeAdressForm);
+            }
+        });
+
+        $("select[name='state']").change(function(){
+            changeCities($(this), $("select[name='city']"), $("#establishment-submit"));
+        });
+
+        $("#franchisee-create").submit(function(e){
+            e.preventDefault();
+
+            /*if(!validCPF($("input[name='cpf']").val())){
+                swal("Erro", "O CPF informado é inválido.", "error");
+
+                return false;
+            }
+
+            if(!validCPF($("input[name='cpf_bank']").val())){
+                swal("Erro", "O CPF do favorecido informado é inválido.", "error");
+
+                return false;
+            }
+
+            if(!validCNPJ($("input[name='cnpj']").val())){
+                swal("Erro", "O CNPJ informado é inválido.", "error");
+
+                return false;
+            }
+            
+            if(!validCNPJ($("input[name='cnpj_bank']").val())){
+                swal("Erro", "O CNPJ do favorecido informado é inválido.", "error");
+
+                return false;
+            }*/
+
+            $.ajax({
+                method: "POST",
+                url: "/admin/franchisee/create/",
+                data: $(this).serialize(),
+                success: function(){
+                    swal({
+                        title: "Sucesso",
+                        text: "Franqueado criado com sucesso",
+                        type: "success"
+                    }, function(){
+                        window.location.href = "/admin/franqueados/";
+                    });
+                },
+                error: function(data){
+                    swal("Erro", data.responseText, "error");
+                }
+            });
+        });
+    </script>
+{% endblock %}
